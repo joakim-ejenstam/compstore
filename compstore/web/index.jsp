@@ -15,5 +15,7 @@
         <h1>Welcome to the NoBloat Computer Store!</h1>
         
         Fishes swims in the ocean...
+        
+        Go to the <a href="Shop">shop</a>
     </body>
 </html>
