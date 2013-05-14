@@ -13,5 +13,7 @@
     </head>
     <body>
         <h1>Welcome to the NoBloat Computer Store!</h1>
+        
+        Fishes swims in the ocean...
     </body>
 </html>
