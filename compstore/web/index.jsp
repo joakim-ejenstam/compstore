@@ -9,9 +9,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>NoBloat Computer Store</title>
     </head>
     <body>
-        <h1>Welcome to the NoBloat Computer store hehe!</h1>
+        <h1>Welcome to the NoBloat Computer Store!</h1>
     </body>
 </html>
