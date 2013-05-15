@@ -4,10 +4,12 @@
  */
 package servlets;
 
+import beans.ComputerListBean;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +25,8 @@ public class ShopServlet extends HttpServlet {
     private static String jdbcURL = null;
     private static String detailspage = null;
     
+    private ComputerListBean cList = null;
+    
     /**
      * Initializer for the servlet.
      */
@@ -34,6 +38,15 @@ public class ShopServlet extends HttpServlet {
         jdbcURL = config.getInitParameter("JDBC_URL");
         detailspage = config.getInitParameter("DETAIL_PAGE");
         
+        try{
+            cList = new ComputerListBean(jdbcURL); }
+        catch(Exception e) {
+            throw new ServletException(e);
+        }
+        
+        ServletContext sc = getServletContext();
+        sc.setAttribute("computerList",cList);
+                
     }
 
     /**
