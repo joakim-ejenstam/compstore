@@ -64,4 +64,19 @@ public class ComputerBean {
     public void setParts(String _parts) {
         parts = _parts;
     }
+    
+    public String getXml() {
+        StringBuffer xmlOut = new StringBuffer();
+
+         xmlOut.append("Namn: ");
+         xmlOut.append(name);
+         xmlOut.append("<br>Beskrivning: ");
+         xmlOut.append(description);
+         xmlOut.append("<br><br>Delar: ");
+         xmlOut.append(parts);
+         xmlOut.append("<br>Pris: ");
+         xmlOut.append(price);
+
+         return xmlOut.toString();
+    }
 }
