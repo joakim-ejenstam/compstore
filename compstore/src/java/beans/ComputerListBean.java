@@ -112,7 +112,7 @@ public class ComputerListBean {
         
         buff.append("<table>");
         while(iter.hasNext()){
-            cb=(ComputerBean)iter.next();
+            cb = (ComputerBean)iter.next();
             buff.append("<tr>");
             buff.append("<td>");
             buff.append(cb.getName());
