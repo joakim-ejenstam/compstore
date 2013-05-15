@@ -43,21 +43,22 @@ public class ComputerListBean {
                 cb.setID(rs.getInt("id"));
                 cb.setName(rs.getString("name"));
                 cb.setDescription(rs.getString("description"));
-                /*
+                
                 stmt2 = conn.createStatement();
-                String sql2 = "SELECT component_id FROM cpu_comp WHERE";
+                String sql2 = "SELECT component_id FROM cpu_comp WHERE ";
                 sql2 += "computer_id = ";
                 sql2 += Integer.toString(rs.getInt("id"));
                 rs2 = stmt2.executeQuery(sql2);
                 
                 while (rs2.next()) {
+                    
                     Statement stmt3 = null;
                     ResultSet rs3 = null;
                     
                     stmt3 = conn.createStatement();
-                    String sql3 = "SELECT price FROM components WHERE";
+                    String sql3 = "SELECT price FROM components WHERE ";
                     sql3 += "id = ";
-                    sql3 += Integer.toString(rs2.getInt("id"));
+                    sql3 += Integer.toString(rs2.getInt("component_id"));
                     rs3 = stmt3.executeQuery(sql3);
                     
                     while (rs3.next()) {
@@ -70,19 +71,20 @@ public class ComputerListBean {
                     try {
                         stmt3.close();
                     } catch(Exception e) {}
+                    
                 }
                 
                 cb.setPrice(cpuPrice);
-                */
+                
                 cpuList.add(cb);
-                /*
+                
                 try {
                     rs2.close();
                 } catch(Exception e) {}
                 try {
                     stmt2.close();
                 } catch(Exception e) {}
-                * */
+               
             }
             
         } catch(SQLException sqle ){
@@ -113,20 +115,21 @@ public class ComputerListBean {
         Iterator iter = cpuList.iterator();
         StringBuffer buff = new StringBuffer();
         
-        buff.append("<table>");
+        buff.append("<table border='5'>");
+        buff.append("<tr><th>Namn</th><th>Beskrivning</th><th>Pris</th></tr>");
         while(iter.hasNext()){
             cb = (ComputerBean)iter.next();
             buff.append("<tr>");
             buff.append("<td>");
             buff.append(cb.getName());
-            buff.append("/<td>");
+            buff.append("</td>");
             buff.append("<td>");
             buff.append(cb.getDescription());
-            buff.append("/<td>");
+            buff.append("</td>");
             buff.append("<td>");
             buff.append(cb.getPrice());
-            buff.append("/<td>");
-            buff.append("/<tr>");
+            buff.append("</td>");
+            buff.append("</tr>");
         }
         buff.append("</table>");     
         
