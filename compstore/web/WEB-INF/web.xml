@@ -18,6 +18,11 @@
             <param-value>/details.jsp</param-value>
             <description>The detailpage for computers</description>
         </init-param>
+        <init-param>
+            <param-name>ERROR_PAGE</param-name>
+            <param-value>/error.jsp</param-value>
+            <description>Error page for different application state</description>
+        </init-param>
     </servlet>
     <servlet-mapping>
         <servlet-name>ShopServlet</servlet-name>

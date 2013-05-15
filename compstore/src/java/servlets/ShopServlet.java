@@ -25,6 +25,7 @@ public class ShopServlet extends HttpServlet {
     private static String startpage = null;
     private static String jdbcURL = null;
     private static String detailspage = null;
+    private static String errorpage = null;
     
     private ComputerListBean cList = null;
     
@@ -38,6 +39,7 @@ public class ShopServlet extends HttpServlet {
         startpage = config.getInitParameter("SHOW_PAGE");
         jdbcURL = config.getInitParameter("JDBC_URL");
         detailspage = config.getInitParameter("DETAIL_PAGE");
+        errorpage = config.getInitParameter("ERROR_PAGE");
         
         try{
             cList = new ComputerListBean(jdbcURL); }
@@ -83,9 +85,13 @@ public class ShopServlet extends HttpServlet {
             else {
                 throw new ServletException("No cid when viewing detail");
             }
-            rd = request.getRequestDispatcher(detailspage);
-            rd.forward(request,response);
-            
+            if(request.getAttribute("comp") != null) {
+                rd = request.getRequestDispatcher(detailspage);
+                rd.forward(request,response);
+            } else {
+                rd = request.getRequestDispatcher(errorpage);
+                rd.forward(request, response);
+            }   
         }
     }
 
