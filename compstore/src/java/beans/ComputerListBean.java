@@ -115,7 +115,7 @@ public class ComputerListBean {
         Iterator iter = cpuList.iterator();
         StringBuffer buff = new StringBuffer();
         
-        buff.append("<table border='5'>");
+        
         buff.append("<tr><th>Namn</th><th>Beskrivning</th><th>Pris</th></tr>");
         while(iter.hasNext()){
             cb = (ComputerBean)iter.next();
@@ -131,7 +131,7 @@ public class ComputerListBean {
             buff.append("</td>");
             buff.append("</tr>");
         }
-        buff.append("</table>");     
+    
         
         return buff.toString();
     }
