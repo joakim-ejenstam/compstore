@@ -16,31 +16,10 @@ public class ComputerBean {
     
     //describes a computer
     
-    private String url=null;
-    
-    public ComputerBean (String _url) throws Exception {
-        url=_url;
-        
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
-        
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            conn=DriverManager.getConnection(url);
-            
-            
-        } catch(SQLException sqle ){
-            throw new Exception(sqle);
-        }
-    }
-    
-
-    
     private int id;
     private String name;
     private String description;
-    private int price;
+    private int price;    
     
     public ComputerBean() {
     }
@@ -71,5 +50,9 @@ public class ComputerBean {
     
     public int getPrice() {
         return price;
+    }
+    
+    public void setPrice(int _price) {
+        price = _price;
     }
 }
