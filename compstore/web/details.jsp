@@ -14,7 +14,13 @@
     <body>
         <h1>Computer details</h1>
         <jsp:useBean id="comp" type="beans.ComputerBean" scope="request"/>
-        <jsp:getProperty name="computerBean" property="xml"/>
-        <a href="ShopServlet?action=show">Just kidding!</a>
+        <jsp:getProperty name="comp" property="xml"/>
+        <br>
+        <table>
+            <tr>
+                <td><a href="ShopServlet?action=show">Just kidding!</a></td>
+                <td><a href="ShopServlet?action=show">Add to cart</a></td>            
+            </tr>
+        </table>
     </body>
 </html>
