@@ -11,6 +11,12 @@
         <init-param>
             <param-name>SHOW_PAGE</param-name>
             <param-value>/show.jsp</param-value>
+            <description>The main shop page</description>
+        </init-param>
+        <init-param>
+            <param-name>DETAIL_PAGE</param-name>
+            <param-value>/details.jsp</param-value>
+            <description>The detailpage for computers</description>
         </init-param>
     </servlet>
     <servlet-mapping>

@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 public class ShopServlet extends HttpServlet {
     private static String startpage = null;
     private static String jdbcURL = null;
+    private static String detailspage = null;
     
     /**
      * Initializer for the servlet.
@@ -31,6 +32,7 @@ public class ShopServlet extends HttpServlet {
         /*Update all jsp strings from config*/
         startpage = config.getInitParameter("SHOW_PAGE");
         jdbcURL = config.getInitParameter("JDBC_URL");
+        detailspage = config.getInitParameter("DETAIL_PAGE");
         
     }
 
@@ -49,30 +51,14 @@ public class ShopServlet extends HttpServlet {
         
         HttpSession sess = request.getSession();
         RequestDispatcher rd = null;
-        /*
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-           
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ShopServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ShopServlet at (AKTA SÅ JAG INTE PULLAR DIG!!!!) " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {            
-            out.close();
-        }
-        */
+        
         if(request.getParameter("action") == null || 
-           request.getParameter("action").equals("show")){
-	    
-            // A request dispatcher that's connected to the page.
-	    
+           request.getParameter("action").equals("show")){	    
             rd = request.getRequestDispatcher(startpage); 
+            rd.forward(request,response);
+        }
+        else if (request.getParameter("action").equals("details")) {
+            rd = request.getRequestDispatcher(detailspage);
             rd.forward(request,response);
         }
     }
