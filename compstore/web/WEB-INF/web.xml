@@ -8,6 +8,10 @@
             <param-value>jdbc:mysql://localhost/compstore?user=root&amp;password=root&amp;verifyServerCertificate=false&amp;useSSL=true</param-value>
             <description>The Database URL to use</description>
         </init-param>
+        <init-param>
+            <param-name>SHOW_PAGE</param-name>
+            <param-value>/show.jsp</param-value>
+        </init-param>
     </servlet>
     <servlet-mapping>
         <servlet-name>ShopServlet</servlet-name>
