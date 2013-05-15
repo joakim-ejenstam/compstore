@@ -137,7 +137,7 @@ public class ComputerListBean {
         StringBuffer buff = new StringBuffer();
         
         
-        buff.append("<tr><th>Namn</th><th>Beskrivning</th><th>Pris</th></tr>");
+        //buff.append("<tr><th>Namn</th><th>Beskrivning</th><th>Pris</th></tr>");
         while(iter.hasNext()){
             cb = (ComputerBean)iter.next();
             buff.append("<tr>");
@@ -149,6 +149,11 @@ public class ComputerListBean {
             buff.append("</td>");
             buff.append("<td>");
             buff.append(cb.getPrice());
+            buff.append("</td>");
+            buff.append("<td>");
+            buff.append("<a href=\"shop?action=details&cid=");
+            buff.append(cb.getID());
+            buff.append("\">Details</a>");
             buff.append("</td>");
             buff.append("</tr>");
         }

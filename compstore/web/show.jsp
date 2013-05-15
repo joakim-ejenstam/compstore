@@ -19,12 +19,18 @@
         
         <p>Welcome to the NoBloat computer store!<br> The one and only place for reasonable computer purchases.</p>
         
-        <table border="5">
+        <table>
+            <tr>
+                <th>Namn</th>
+                <th>Beskrivning</th>
+                <th>Pris</th>
+            </tr>
             <jsp:getProperty name="computerList" property="xml"/>
         </table>
         
         <br>  
-        <a href="shop?action=details&cid=2">Click motherfucker!</a>
+        
+        <a href="shop">checkout</a>
         <a href="shop?action=login">login</a>
     </body>
 </html>

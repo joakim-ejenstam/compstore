@@ -13,10 +13,10 @@
     </head>
     <body>
         <h1>Login to NoBloat webshop</h1>
-        <table>
+        <table border="1">
             <tr>
                 <td>  
-                    Input här
+                    <input size="20" type="text" name="username">
                 </td>
                 <td>
                     <a href="shop">Login</a>
