@@ -43,7 +43,7 @@ public class ComputerListBean {
                 cb.setID(rs.getInt("id"));
                 cb.setName(rs.getString("name"));
                 cb.setDescription(rs.getString("description"));
-                
+                /*
                 stmt2 = conn.createStatement();
                 String sql2 = "SELECT component_id FROM cpu_comp WHERE";
                 sql2 += "computer_id = ";
@@ -73,15 +73,16 @@ public class ComputerListBean {
                 }
                 
                 cb.setPrice(cpuPrice);
-                
+                */
                 cpuList.add(cb);
-                
+                /*
                 try {
                     rs2.close();
                 } catch(Exception e) {}
                 try {
                     stmt2.close();
                 } catch(Exception e) {}
+                * */
             }
             
         } catch(SQLException sqle ){
