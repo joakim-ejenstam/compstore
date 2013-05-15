@@ -12,6 +12,9 @@
         <title>JSP Page</title>
     </head>
     <body>
+        <h1>Computer details</h1>
+        <jsp:useBean id="comp" type="beans.ComputerBean" scope="request"/>
+        <jsp:getProperty name="computerBean" property="xml"/>
         <a href="ShopServlet?action=show">Just kidding!</a>
     </body>
 </html>

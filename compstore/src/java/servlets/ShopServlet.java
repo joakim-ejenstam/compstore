@@ -4,6 +4,7 @@
  */
 package servlets;
 
+import beans.ComputerBean;
 import beans.ComputerListBean;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -71,8 +72,20 @@ public class ShopServlet extends HttpServlet {
             rd.forward(request,response);
         }
         else if (request.getParameter("action").equals("details")) {
+            if(request.getParameter("cid") != null) {
+                
+                ComputerBean comp = 
+                        cList.getById(
+                        Integer.parseInt(request.getParameter("cid")));
+                
+                request.setAttribute("comp", comp);
+            }
+            else {
+                throw new ServletException("No cid when viewing detail");
+            }
             rd = request.getRequestDispatcher(detailspage);
             rd.forward(request,response);
+            
         }
     }
 
