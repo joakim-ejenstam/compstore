@@ -18,9 +18,24 @@ public class ComputerBean {
     
     private String url=null;
     
-    Connection conn = null;
-    Statement stmt = null;
-    ResultSet rs = null;
+    public ComputerBean (String _url) throws Exception {
+        url=_url;
+        
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn=DriverManager.getConnection(url);
+            
+            
+        } catch(SQLException sqle ){
+            throw new Exception(sqle);
+        }
+    }
+    
+
     
     private int id;
     private String name;
