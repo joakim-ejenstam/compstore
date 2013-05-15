@@ -72,7 +72,7 @@ public class ComputerBean {
          xmlOut.append(name);
          xmlOut.append("<br>Beskrivning: ");
          xmlOut.append(description);
-         xmlOut.append("<br><br>Delar: ");
+         xmlOut.append("<br><br>Delar: <br>");
          xmlOut.append(parts);
          xmlOut.append("<br>Pris: ");
          xmlOut.append(price);
