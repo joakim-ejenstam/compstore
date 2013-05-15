@@ -61,15 +61,72 @@ public class ComputerListBean {
                     while (rs3.next()) {
                         cpuPrice = cpuPrice + rs3.getInt("price");
                     }
+                    
+                    try {
+                        rs3.close();
+                    } catch(Exception e) {}
+                    try {
+                        stmt3.close();
+                    } catch(Exception e) {}
                 }
                 
                 cb.setPrice(cpuPrice);
                 
                 cpuList.add(cb);
+                
+                try {
+                    rs2.close();
+                } catch(Exception e) {}
+                try {
+                    stmt2.close();
+                } catch(Exception e) {}
             }
             
         } catch(SQLException sqle ){
             throw new Exception(sqle);
+        } finally{
+ 	    try{
+                rs.close();
+            }
+            catch(Exception e) {}
+            try{
+                stmt.close();
+            }
+	    catch(Exception e) {}
+            try {
+                conn.close();
+            }
+            catch(Exception e){}
         }
+    }
+    
+    java.util.Collection getComputerList() {
+        return cpuList;
+    }
+    
+    public String getXml() {
+        
+        ComputerBean cb=null;
+        Iterator iter = cpuList.iterator();
+        StringBuffer buff = new StringBuffer();
+        
+        buff.append("<table>");
+        while(iter.hasNext()){
+            cb=(ComputerBean)iter.next();
+            buff.append("<tr>");
+            buff.append("<td>");
+            buff.append(cb.getName());
+            buff.append("/<td>");
+            buff.append("<td>");
+            buff.append(cb.getDescription());
+            buff.append("/<td>");
+            buff.append("<td>");
+            buff.append(cb.getPrice());
+            buff.append("/<td>");
+            buff.append("/<tr>");
+        }
+        buff.append("</table>");     
+        
+        return buff.toString();
     }
 }
