@@ -26,6 +26,6 @@
         <br>
       
         
-        <a href="ShopServlet?action=details">Click motherfucker!</a>
+        <a href="ShopServlet?action=details&cid=2">Click motherfucker!</a>
     </body>
 </html>
