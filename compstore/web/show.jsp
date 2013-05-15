@@ -13,7 +13,7 @@
     </head>
     <body>
         <h1>NoBloat computer store</h1>
-        <jsp:useBean id="computerList" class="beans.ComputerListBean" scope="application">
+        <jsp:useBean id="computerList" type="beans.ComputerListBean" scope="application">
         Error, the bean should have been created in the servlet!
         </jsp:useBean>
         
@@ -57,7 +57,7 @@
                 <td>200kg Urainium</td>
             </tr>
         </table>
-        <jsp:getProperty name="computerList" property="xml"></jsp:getProperty>
+        <jsp:getProperty name="computerList" property="xml"/>
         <a href="ShopServlet?action=details">Click motherfucker!</a>
     </body>
 </html>
