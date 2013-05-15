@@ -23,6 +23,7 @@
                 <td>RAM</td>
                 <td>HDD</td>
                 <td>Graphics</td>
+                <td>Price</td>
             </tr>
             <tr>
                 <td>Basic</td>
@@ -31,6 +32,7 @@
                 <td>1MB</td>
                 <td>80MB</td>
                 <td>N/A</td>
+                <td>200$</td>
             </tr>
             <tr>
                 <td>Moderate</td>
@@ -39,15 +41,18 @@
                 <td>1GB</td>
                 <td>160GB 7200RPM</td>
                 <td>Standard</td>
+                <td>1000$</td>
             </tr>
             <tr>
                 <td>Superduper</td>
                 <td>Awesome mega 2000</td>
                 <td>Petacore 2,7Ghz</td>
                 <td>128TB</td>
-                <td>200TB SSD</td>
+                <td>Quantum superdrive</td>
                 <td>Supergraph 4D</td>
+                <td>200kg Urainium</td>
             </tr>
         </table>
+        <a href="shopservlet?action=details">Click motherfucker!</a>
     </body>
 </html>
