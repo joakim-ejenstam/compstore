@@ -18,8 +18,8 @@
         <br>
         <table>
             <tr>
-                <td><a href="ShopServlet?action=show">Just kidding!</a></td>
-                <td><a href="ShopServlet?action=show">Add to cart</a></td>            
+                <td><a href="shop?action=show">Just kidding!</a></td>
+                <td><a href="shop?action=show">Add to cart</a></td>            
             </tr>
         </table>
     </body>

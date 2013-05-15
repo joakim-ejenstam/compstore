@@ -23,9 +23,14 @@
             <param-value>/error.jsp</param-value>
             <description>Error page for different application state</description>
         </init-param>
+        <init-param>
+            <param-name>LOGIN_PAGE</param-name>
+            <param-value>/login.jsp</param-value>
+            <description>General loginpage </description>
+        </init-param>
     </servlet>
     <servlet-mapping>
         <servlet-name>ShopServlet</servlet-name>
-        <url-pattern>/ShopServlet</url-pattern>
+        <url-pattern>/shop</url-pattern>
     </servlet-mapping>
 </web-app>

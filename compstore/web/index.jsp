@@ -16,6 +16,6 @@
         
         Fishes swims in the ocean...
         
-        Go to the <a href="ShopServlet">shop</a>
+        Go to the <a href="shop">shop</a>
     </body>
 </html>

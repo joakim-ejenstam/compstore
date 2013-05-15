@@ -14,7 +14,7 @@
     <body>
         <h1>NoBloat computer store</h1>
         <jsp:useBean id="computerList" type="beans.ComputerListBean" scope="application">
-        Error, the bean should have been created in the servlet!
+            Error, the bean should have been created in the servlet!
         </jsp:useBean>
         
         <p>Welcome to the NoBloat computer store!<br> The one and only place for reasonable computer purchases.</p>
@@ -23,9 +23,8 @@
             <jsp:getProperty name="computerList" property="xml"/>
         </table>
         
-        <br>
-      
-        
-        <a href="ShopServlet?action=details&cid=2">Click motherfucker!</a>
+        <br>  
+        <a href="shop?action=details&cid=2">Click motherfucker!</a>
+        <a href="shop?action=login">login</a>
     </body>
 </html>

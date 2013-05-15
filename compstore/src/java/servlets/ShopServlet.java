@@ -26,6 +26,7 @@ public class ShopServlet extends HttpServlet {
     private static String jdbcURL = null;
     private static String detailspage = null;
     private static String errorpage = null;
+    private static String loginpage = null;
     
     private ComputerListBean cList = null;
     
@@ -40,6 +41,7 @@ public class ShopServlet extends HttpServlet {
         jdbcURL = config.getInitParameter("JDBC_URL");
         detailspage = config.getInitParameter("DETAIL_PAGE");
         errorpage = config.getInitParameter("ERROR_PAGE");
+        loginpage = config.getInitParameter("LOGIN_PAGE");
         
         try{
             cList = new ComputerListBean(jdbcURL); }
@@ -92,6 +94,9 @@ public class ShopServlet extends HttpServlet {
                 rd = request.getRequestDispatcher(errorpage);
                 rd.forward(request, response);
             }   
+        }else if (request.getParameter("action").equals("login")) {
+            rd = request.getRequestDispatcher(loginpage);
+            rd.forward(request,response);
         }
     }
 
