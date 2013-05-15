@@ -48,6 +48,7 @@ public class ComputerListBean {
                 String sql2 = "SELECT component_id FROM cpu_comp WHERE";
                 sql2 += "computer_id = ";
                 sql2 += Integer.toString(rs.getInt("id"));
+                rs2 = stmt2.executeQuery(sql2);
                 
                 while (rs2.next()) {
                     Statement stmt3 = null;
@@ -57,6 +58,7 @@ public class ComputerListBean {
                     String sql3 = "SELECT price FROM components WHERE";
                     sql3 += "id = ";
                     sql3 += Integer.toString(rs2.getInt("id"));
+                    rs3 = stmt3.executeQuery(sql3);
                     
                     while (rs3.next()) {
                         cpuPrice = cpuPrice + rs3.getInt("price");
