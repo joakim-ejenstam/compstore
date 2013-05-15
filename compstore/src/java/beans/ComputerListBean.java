@@ -37,6 +37,7 @@ public class ComputerListBean {
                 Statement stmt2 = null;
                 ResultSet rs2 = null;
                 int cpuPrice = 0;
+                String cpuParts = "";
                 
                 ComputerBean cb = new ComputerBean();
                 
@@ -56,12 +57,31 @@ public class ComputerListBean {
                     ResultSet rs3 = null;
                     
                     stmt3 = conn.createStatement();
-                    String sql3 = "SELECT price FROM components WHERE ";
+                    String sql3 = "SELECT * FROM components WHERE ";
                     sql3 += "id = ";
                     sql3 += Integer.toString(rs2.getInt("component_id"));
+                    sql3 += " ORDER BY type ASC";
                     rs3 = stmt3.executeQuery(sql3);
                     
                     while (rs3.next()) {
+                        Statement stmt4 = null;
+                        ResultSet rs4 = null;
+                        String compType = "";
+                        
+                        stmt4 = conn.createStatement();
+                        String sql4 = "SELECT name FROM component_types WHERE ";
+                        sql4 += "id = ";
+                        sql4 += Integer.toString(rs3.getInt("type"));
+                        rs4 = stmt4.executeQuery(sql4);
+                        
+                        while (rs4.next()) {
+                            cpuParts += rs4.getString("name");
+                        }
+                        
+                        cpuParts += ": ";
+                        cpuParts += rs3.getString("name");
+                        cpuParts += "<br>";
+                        
                         cpuPrice = cpuPrice + rs3.getInt("price");
                     }
                     
@@ -74,6 +94,7 @@ public class ComputerListBean {
                     
                 }
                 
+                cb.setParts(cpuParts);
                 cb.setPrice(cpuPrice);
                 
                 cpuList.add(cb);
@@ -134,5 +155,18 @@ public class ComputerListBean {
     
         
         return buff.toString();
+    }
+    
+    public ComputerBean getById(int id) {
+	ComputerBean cb = null;
+	Iterator iter = cpuList.iterator();
+        
+	while(iter.hasNext()){
+	    cb=(ComputerBean)iter.next();
+	    if(cb.getID() == id){
+                return cb;
+	    }
+	}
+	return null;
     }
 }

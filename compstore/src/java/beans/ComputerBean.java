@@ -19,7 +19,8 @@ public class ComputerBean {
     private int id;
     private String name;
     private String description;
-    private int price;    
+    private int price;
+    private String parts;
     
     public ComputerBean() {
     }
@@ -54,5 +55,13 @@ public class ComputerBean {
     
     public void setPrice(int _price) {
         price = _price;
+    }
+    
+    public String getParts() {
+        return parts;
+    }
+    
+    public void setParts(String _parts) {
+        parts = _parts;
     }
 }
