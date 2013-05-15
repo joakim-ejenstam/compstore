@@ -6,16 +6,33 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Martin
  */
 public class ShopServlet extends HttpServlet {
+    private static String startpage = null;
+    private static String jdbcURL = null;
+    
+    /**
+     * Initializer for the servlet.
+     */
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        
+        /*Update all jsp strings from config*/
+        startpage = config.getInitParameter("SHOW_PAGE");
+        jdbcURL = config.getInitParameter("JDBC_URL");
+        
+    }
 
     /**
      * Processes requests for both HTTP
@@ -29,10 +46,14 @@ public class ShopServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        HttpSession sess = request.getSession();
+        RequestDispatcher rd = null;
+        /*
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            /* TODO output your page here. You may use following sample code. */
+           
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -44,6 +65,15 @@ public class ShopServlet extends HttpServlet {
             out.println("</html>");
         } finally {            
             out.close();
+        }
+        */
+        if(request.getParameter("action") == null || 
+           request.getParameter("action").equals("show")){
+	    
+            // A request dispatcher that's connected to the page.
+	    
+            rd = request.getRequestDispatcher(startpage); 
+            rd.forward(request,response);
         }
     }
 
