@@ -80,7 +80,7 @@ public class ComputerBean {
          return xmlOut.toString();
     }
     
-        public String getXml2() {
+    public String getXml2() {
         StringBuffer xmlOut = new StringBuffer();
 
          xmlOut.append(name);
