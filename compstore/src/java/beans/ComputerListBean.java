@@ -153,6 +153,10 @@ public class ComputerListBean {
             buff.append(cb.getID());
             buff.append("\">Details</a>");
             buff.append("</td>");
+            buff.append("<td>");
+            buff.append("<a href=\"shop?action=add&cid=");
+            buff.append(cb.getID());
+            buff.append("&quan=1\">Lägg till</a></td>");
             buff.append("</tr>");
         }
 
