@@ -28,9 +28,27 @@
             <jsp:getProperty name="computerList" property="xml"/>
         </table>
         
-        <br>  
         
-        <a href="shop">checkout</a>
-        <a href="shop?action=login">login</a>
+        <br>
+        <table border="0" cellspacing="0">
+            <tr bgcolor="silver">
+                <td colspan="4">
+                    <strong>Shoppingcart</strong>
+                </td>
+                <tr bgcolor="silver">
+                    <td>Title</td>
+                    <td>Quantity</td>
+                    <td colspan="2">Remove</td>
+                </tr>
+            </tr>
+        <tr>
+            <td colspan="2">
+                <a href="shop">Checkout</a>
+            </td>
+        </tr>
+    </table>
+        
+        
+    <a href="shop?action=login">login</a>
     </body>
 </html>

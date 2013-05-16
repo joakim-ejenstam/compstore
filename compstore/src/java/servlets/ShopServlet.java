@@ -33,6 +33,7 @@ public class ShopServlet extends HttpServlet {
     /**
      * Initializer for the servlet.
      */
+    @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         
@@ -70,11 +71,14 @@ public class ShopServlet extends HttpServlet {
         HttpSession sess = request.getSession();
         RequestDispatcher rd = null;
         
+        //Display the mainpage of the application
         if(request.getParameter("action") == null || 
            request.getParameter("action").equals("show")){	    
             rd = request.getRequestDispatcher(startpage); 
             rd.forward(request,response);
         }
+        
+        //Show the details page of one product
         else if (request.getParameter("action").equals("details")) {
             if(request.getParameter("cid") != null) {
                 
@@ -93,13 +97,45 @@ public class ShopServlet extends HttpServlet {
             } else {
                 rd = request.getRequestDispatcher(errorpage);
                 rd.forward(request, response);
-            }   
-        }else if (request.getParameter("action").equals("login")) {
+            }      
+        }
+        
+        // Add items to the cart.
+        else if (request.getParameter("action").equals("add")) {
+            
+            //Check if the computer and quantity is not null
+            if(request.getParameter("cid") != null &&
+                    request.getParameter("quan") != null) {
+                
+                //TODO: add things to the shoppingcart later
+                rd = request.getRequestDispatcher(startpage);
+                rd.forward(request, response);
+            } else {
+                throw new ServletException("No such computer!");
+            }
+            
+        }
+        
+        // Send the user to the login page
+        else if (request.getParameter("action").equals("login")) {
             rd = request.getRequestDispatcher(loginpage);
             rd.forward(request,response);
         }
     }
+    /*
+    private ShoppingBean getCart(HttpServletRequest request){
+        HttpSession se = null;
+        se=request.getSession();
+        ShoppingBean sb =null;
+        sb = (ShoppingBean)se.getAttribute("shoppingCart");
+        if(sb==null){
+            sb = new ShoppingBean();
+            se.setAttribute("shoppingCart",sb);
+        }
 
+        return sb;
+    }
+    * /
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP
