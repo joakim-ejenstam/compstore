@@ -47,6 +47,7 @@ public class OrderListBean {
                 
                 obNew.setID(rsNew.getInt("order_id"));
                 obNew.setUser(rsNew.getInt("customer_id"));
+                obNew.setOrderStatus(rsNew.getInt("finished"));
                 
                 stmtNew2 = conn.createStatement();
                 String sqlNew2 = "SELECT Name FROM customers WHERE id = ";
@@ -56,6 +57,8 @@ public class OrderListBean {
                 while (rsNew2.next()) {
                     obNew.setUserName(rsNew2.getString("Name"));
                 }
+                
+                obNew.setOrderContent("Funkar inte än!");
                 
                 newOrderList.add(obNew);
                 
@@ -79,6 +82,7 @@ public class OrderListBean {
                 
                 obOld.setID(rsOld.getInt("order_id"));
                 obOld.setUser(rsOld.getInt("customer_id"));
+                obOld.setOrderStatus(rsOld.getInt("finished"));
                 
                 stmtOld2 = conn.createStatement();
                 String sqlOld2 = "SELECT Name FROM customers WHERE id = ";
@@ -88,6 +92,8 @@ public class OrderListBean {
                 while (rsOld2.next()) {
                     obOld.setUserName(rsOld2.getString("Name"));
                 }
+                
+                obOld.setOrderContent("Funkar inte än!");
                 
                 oldOrderList.add(obOld);
                 
@@ -165,5 +171,29 @@ public class OrderListBean {
         }
 
         return buff.toString();
-   }
+    }
+   
+    
+    public OrderBean getById(int id) {
+	OrderBean ob = null;
+	Iterator iterNew = newOrderList.iterator();
+        Iterator iterOld = oldOrderList.iterator();
+        
+	while(iterNew.hasNext()){
+	    ob=(OrderBean)iterNew.next();
+	    if(ob.getID() == id){
+                return ob;
+	    }
+	}
+        
+        while(iterOld.hasNext()){
+	    ob=(OrderBean)iterOld.next();
+	    if(ob.getID() == id){
+                return ob;
+	    }
+	}
+        
+	return null;
+    }
+    
 }

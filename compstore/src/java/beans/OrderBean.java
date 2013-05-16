@@ -17,6 +17,8 @@ public class OrderBean {
     private int orderID;
     private int userID;
     private String userName;
+    private String orderContent;
+    private int orderStatus;
     
     public OrderBean() {
     }  
@@ -45,4 +47,34 @@ public class OrderBean {
         userName = _userName;
     }
     
+    public String getOrderContent() {
+        return orderContent;
+    }
+    
+    public void setOrderContent(String _orderContent) {
+        orderContent = _orderContent;
+    }
+    
+    public int getOrderStatus() {
+        return orderStatus;
+    }
+    
+    public void setOrderStatus(int _orderStatus) {
+        orderStatus = _orderStatus;
+    }
+    
+    public String getXml() {
+        StringBuffer xmlOut = new StringBuffer();
+
+        xmlOut.append("Kund: ");
+        xmlOut.append(userName);
+        xmlOut.append("<br>Innehåll: ");
+        xmlOut.append(orderContent);
+        xmlOut.append("<br><br>Delar: <br>");
+        if (orderStatus == 0) {
+            xmlOut.append("<br><br><a href=''>Skicka</a> <br>");
+        }
+
+        return xmlOut.toString();
+    }
 }
