@@ -88,9 +88,9 @@ public class ShoppingCartBean {
             buff.append(((ComputerBean)objBuff[0]).getXml2());
             buff.append("</td><td>");
             buff.append(((Integer)objBuff[1]).intValue());
-            buff.append("<td><a href=\"shop?action=remove\"&cid=");
+            buff.append("<td><a href=\"shop?action=remove&cid=");
             buff.append(((ComputerBean)objBuff[0]).getID());
-            buff.append("\">bort");
+            buff.append("\">bort</a>");
             buff.append("</td></tr");
         }
         return buff.toString();
