@@ -20,41 +20,60 @@ public class ShoppingCartBean {
         shoppingCart = new ArrayList();
     }
     
-    public void addItem(ComputerBean cb, int quantity) {
+    public void addItem(ComputerBean cb, int quan) {
         Object newItem[] = null;
         ComputerBean tmpBean = null;
         
         if (shoppingCart.isEmpty()) {
             newItem = new Object[2];
             newItem[0] = cb;
-            newItem[1] = new Integer(quantity);    
+            newItem[1] = new Integer(quan);    
             shoppingCart.add(newItem);
         } else {
             Iterator iter = shoppingCart.iterator();
-            Object tmpArr[];
+            Object arr[];
 	    boolean found = false;
             
             while (iter.hasNext()) {
-                tmpArr = (Object[]) iter.next();
+                arr = (Object[])iter.next();
                 
-                if (((ComputerBean)tmpArr[0]).getID() == cb.getID()) {
-                    Integer tmpAntal = (Integer)tmpArr[1];
-		    tmpArr[1]=new Integer(tmpAntal.intValue()+quantity); 
-		    found= true;
+                if (((ComputerBean)arr[0]).getID() == cb.getID()) {
+                    Integer antal = (Integer)arr[1];
+		    arr[1] = new Integer(antal.intValue()+quan); 
+		    found = true;
                 }
             }
             
             if(!found){
 		newItem = new Object[2];
 		newItem[0]=cb;
-		newItem[1]=new Integer(quantity);    
+		newItem[1]=new Integer(quan);    
 		shoppingCart.add(newItem);
 	    }
         }
     }
     
-    public void removeItem() {
+    public void removeItem(int id, int quan) {
+        if(!shoppingCart.isEmpty()){
         
+            Iterator iter = shoppingCart.iterator();
+            Object arr[] = null;
+
+
+            while(iter.hasNext()){
+                arr = (Object[])iter.next();
+                
+                if(((ComputerBean)arr[0]).getID() == id) {
+                    Integer antal = (Integer)arr[1];
+
+                    if(antal.intValue() <= quan) {
+                        iter.remove();
+                    } else {
+                        arr[1] = new Integer(antal.intValue()-quan);
+                    }
+                }
+            }
+        }
     }
     
     public String getXml() {
