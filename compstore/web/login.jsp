@@ -15,16 +15,25 @@
         <h1>Login to NoBloat webshop</h1>
         <table border="1">
             <tr>
+                <td>
+                    Username
+                </td>
                 <td>  
                     <input size="20" type="text" name="username">
                 </td>
+            </tr>
+            <tr>
                 <td>
-                    <a href="shop">Login</a>
+                    Password
+                </td>
+                <td>
+                    <input size="20" type="text" name="username">
                 </td>
             </tr>
         </table>
+        <a href="shop">Login</a>
         <a href="shop">Cancel</a>
         <br>
-        Not a user? Register <a href="shop">here</a>
+        Not a user? Register <a href="shop?action=register">here</a>
     </body>
 </html>

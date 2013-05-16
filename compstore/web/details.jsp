@@ -19,7 +19,7 @@
         <table border="1">
             <tr>
                 <td><a href="shop?action=show">Back to store</a></td>
-                <td><a href="shop?action=add?cid=1?quan=10000">Add to cart</a></td>            
+                <td><a href="shop?action=add&cid=1&quan=10000">Add to cart</a></td>            
             </tr>
         </table>
     </body>

@@ -1,6 +1,6 @@
 <%-- 
-    Document   : error
-    Created on : 2013-maj-15, 16:35:24
+    Document   : register
+    Created on : 2013-maj-16, 10:51:40
     Author     : Joakim
 --%>
 
@@ -12,6 +12,8 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Något har gått jävligt fel!</h1>
+        <h1>Create account</h1>
+        <a href="shop">Register</a>
+        <a href="shop">Cancel</a>
     </body>
 </html>

@@ -6,6 +6,7 @@ package servlets;
 
 import beans.ComputerBean;
 import beans.ComputerListBean;
+import beans.ShoppingCartBean;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -27,6 +28,7 @@ public class ShopServlet extends HttpServlet {
     private static String detailspage = null;
     private static String errorpage = null;
     private static String loginpage = null;
+    private static String registerpage = null;
     
     private ComputerListBean cList = null;
     
@@ -43,6 +45,7 @@ public class ShopServlet extends HttpServlet {
         detailspage = config.getInitParameter("DETAIL_PAGE");
         errorpage = config.getInitParameter("ERROR_PAGE");
         loginpage = config.getInitParameter("LOGIN_PAGE");
+        registerpage = config.getInitParameter("REGISTER_PAGE");
         
         try{
             cList = new ComputerListBean(jdbcURL); }
@@ -69,6 +72,7 @@ public class ShopServlet extends HttpServlet {
             throws ServletException, IOException {
         
         HttpSession sess = request.getSession();
+        ShoppingCartBean scb = getCart(request);
         RequestDispatcher rd = null;
         
         //Display the mainpage of the application
@@ -108,10 +112,26 @@ public class ShopServlet extends HttpServlet {
                     request.getParameter("quan") != null) {
                 
                 //TODO: add things to the shoppingcart later
+                ComputerBean cb = cList.getById(
+                        Integer.parseInt(request.getParameter("cid")));
+                scb.addItem(cb,Integer.parseInt(request.getParameter("quan")));
+                
                 rd = request.getRequestDispatcher(startpage);
                 rd.forward(request, response);
             } else {
                 throw new ServletException("No such computer!");
+            }      
+        }
+        
+        // Remove item from the cart.
+        else if (request.getParameter("action").equals("remove")) {
+           
+            if(request.getParameter("cid") != null) {
+                scb.removeItem(Integer.parseInt(request.getParameter("cid")),1);
+                rd = request.getRequestDispatcher(startpage);
+                rd.forward(request, response);
+            } else {
+                throw new ServletException("No item in cart");
             }
             
         }
@@ -121,21 +141,25 @@ public class ShopServlet extends HttpServlet {
             rd = request.getRequestDispatcher(loginpage);
             rd.forward(request,response);
         }
+        
+        else if (request.getParameter("action").equals("register")) {
+            rd = request.getRequestDispatcher(registerpage);
+            rd.forward(request, response);
+        }
     }
-    /*
-    private ShoppingBean getCart(HttpServletRequest request){
+    
+    private ShoppingCartBean getCart(HttpServletRequest request){
         HttpSession se = null;
         se=request.getSession();
-        ShoppingBean sb =null;
-        sb = (ShoppingBean)se.getAttribute("shoppingCart");
+        ShoppingCartBean sb =null;
+        sb = (ShoppingCartBean)se.getAttribute("shoppingCart");
         if(sb==null){
-            sb = new ShoppingBean();
+            sb = new ShoppingCartBean();
             se.setAttribute("shoppingCart",sb);
         }
 
         return sb;
     }
-    * /
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP

@@ -17,6 +17,10 @@
             Error, the bean should have been created in the servlet!
         </jsp:useBean>
         
+        <jsp:useBean id="shoppingCart" type="beans.ShoppingCartBean" scope="session">
+            Error, the bean should have been created in the servlet!
+        </jsp:useBean>
+        
         <p>Welcome to the NoBloat computer store!<br> The one and only place for reasonable computer purchases.</p>
         
         <table>
@@ -30,22 +34,25 @@
         
         
         <br>
-        <table border="0" cellspacing="0">
+        <table border="0" cellspacing="1">
             <tr bgcolor="silver">
                 <td colspan="4">
                     <strong>Shoppingcart</strong>
                 </td>
                 <tr bgcolor="silver">
-                    <td>Title</td>
-                    <td>Quantity</td>
-                    <td colspan="2">Remove</td>
+                    <td>Namn</td>
+                    <td>Antal</td>
+                    <td colspan="2">Ta bort</td>
                 </tr>
             </tr>
-        <tr>
-            <td colspan="2">
-                <a href="shop">Checkout</a>
-            </td>
-        </tr>
+            <tr>
+                <jsp:getProperty name="shoppingCart" property="xml"/>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <a href="shop">Checkout</a>
+                </td>
+            </tr>
     </table>
         
         
