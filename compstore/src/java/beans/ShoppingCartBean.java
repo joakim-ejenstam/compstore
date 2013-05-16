@@ -66,7 +66,7 @@ public class ShoppingCartBean {
         while(iter.hasNext()){
             objBuff =(Object[])iter.next();
             buff.append("<tr><td>");
-            buff.append(((ComputerBean)objBuff[0]).getXml());
+            buff.append(((ComputerBean)objBuff[0]).getXml2());
             buff.append("</td><td>");
             buff.append(((Integer)objBuff[1]).intValue());
             buff.append("</td></tr>");            

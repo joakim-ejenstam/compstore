@@ -79,4 +79,13 @@ public class ComputerBean {
 
          return xmlOut.toString();
     }
+    
+        public String getXml2() {
+        StringBuffer xmlOut = new StringBuffer();
+
+         xmlOut.append("Namn: ");
+         xmlOut.append(name);
+
+         return xmlOut.toString();
+    }
 }
