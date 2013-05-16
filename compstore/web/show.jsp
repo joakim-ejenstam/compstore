@@ -35,14 +35,13 @@
         
         <br>
         <table border="0" cellspacing="1">
-            <tr bgcolor="silver">
-                <td colspan="4">
+            <tr>
+                <td>
                     <strong>Shoppingcart</strong>
                 </td>
                 <tr bgcolor="silver">
                     <td>Namn</td>
                     <td>Antal</td>
-                    <td colspan="2">Ta bort</td>
                 </tr>
             </tr>
             <tr>
