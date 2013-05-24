@@ -70,14 +70,25 @@
     
     <br>
     <br>
-    <c:if test="${sessionScope.user == null}">
-        <form action="shop?action=login" method="post">
-            <input type="submit" value="Logga in"/>
-        </form>
-    </c:if>
     <c:if test="${sessionScope.user != null}">
-    <form action="shop?action=logout" method="post">
-        <input type="submit" value="Logga ut"/>
+        <table>
+            <tr>
+                <td>
+                    <form action="shop?action=profil" method="post">
+                        <input type="submit" value="Min profil"/>
+                    </form>
+                </td>
+                <td>
+                    <form action="shop?action=logout" method="post">
+                        <input type="submit" value="Logga ut"/>
+                    </form>
+                </td>
+            </tr>
+        </table>             
+    </c:if>
+    <c:if test="${sessionScope.user == null}">
+    <form action="shop?action=login" method="post">
+        <input type="submit" value="Logga in"/>
     </form>
     </c:if>
     <br>

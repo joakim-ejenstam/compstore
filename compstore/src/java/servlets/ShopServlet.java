@@ -32,6 +32,7 @@ public class ShopServlet extends HttpServlet {
     private static String registerpage = null;
     private static String checkpage = null;
     private static String thanks = null;
+    private static String profilepage = null;
     
     private ComputerListBean cList = null;
     
@@ -51,6 +52,7 @@ public class ShopServlet extends HttpServlet {
         registerpage = config.getInitParameter("REGISTER_PAGE");
         checkpage = config.getInitParameter("CHECKOUT_PAGE");
         thanks = config.getInitParameter("THANK_PAGE");
+        profilepage = config.getInitParameter("PROFILE_PAGE");
         
         try{
             cList = new ComputerListBean(jdbcURL); }
@@ -181,6 +183,11 @@ public class ShopServlet extends HttpServlet {
         else if (request.getParameter("action").equals("loggedin")) {
             UserBean _ub = getUser(request);
             rd = request.getRequestDispatcher(startpage);
+            rd.forward(request, response);
+        }
+        
+        else if (request.getParameter("action").equals("profil")) {
+            rd = request.getRequestDispatcher(profilepage);
             rd.forward(request, response);
         }
         

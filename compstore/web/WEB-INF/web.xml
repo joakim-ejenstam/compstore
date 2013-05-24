@@ -43,6 +43,11 @@
             <param-value>/tack.jsp</param-value>
             <description>Page to thank user at checkout</description>
         </init-param>
+        <init-param>
+            <param-name>PROFILE_PAGE</param-name>
+            <param-value>/profile.jsp</param-value>
+            <description>Page to handle profile</description>
+        </init-param>
     </servlet>
     <servlet-mapping>
         <servlet-name>ShopServlet</servlet-name>
