@@ -144,8 +144,14 @@ public class ShopServlet extends HttpServlet {
         // Forward user to checkout page
         
         else if (request.getParameter("action").equals("checkout")) {
-            rd = request.getRequestDispatcher(checkpage);
-            rd.forward(request, response);
+            if(sess.getAttribute("user") != null) {
+                rd = request.getRequestDispatcher(checkpage);
+                rd.forward(request, response);
+            } else {
+                rd = request.getRequestDispatcher(loginpage);
+                rd.forward(request, response);
+            }
+            
         }
         
         // Finalize the customers order
@@ -163,6 +169,12 @@ public class ShopServlet extends HttpServlet {
         // Send the user to the login page
         else if (request.getParameter("action").equals("login")) {
             rd = request.getRequestDispatcher(loginpage);
+            rd.forward(request,response);
+        }
+        
+        else if (request.getParameter("action").equals("logout")) {
+            sess.invalidate();
+            rd = request.getRequestDispatcher(thanks);
             rd.forward(request,response);
         }
         

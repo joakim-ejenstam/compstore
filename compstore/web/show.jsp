@@ -27,7 +27,7 @@
             Error, the bean should have been created in the servlet!
         </jsp:useBean>
             
-        User: <jsp:getProperty name="user" property="xml"/>
+        <jsp:getProperty name="user" property="xml"/>
         </c:if>
         
         <p>Welcome to the NoBloat computer store!<br> The one and only place for reasonable computer purchases.</p>
@@ -70,7 +70,16 @@
     
     <br>
     <br>
-    <a href="shop?action=login">login</a>
+    <c:if test="${sessionScope.user == null}">
+        <form action="shop?action=login" method="post">
+            <input type="submit" value="Logga in"/>
+        </form>
+    </c:if>
+    <c:if test="${sessionScope.user != null}">
+    <form action="shop?action=logout" method="post">
+        <input type="submit" value="Logga ut"/>
+    </form>
+    </c:if>
     <br>
     <br>
     <strong>Om du vill lägga stora ordrar, <a href="http://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">ring oss!</a></strong>

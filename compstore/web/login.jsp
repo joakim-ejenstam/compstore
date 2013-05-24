@@ -13,6 +13,7 @@
     </head>
     <body>
         <h1>Login to NoBloat webshop</h1>
+        <form method="POST" action="shop">
         <table border="1">
             <tr>
                 <td>
@@ -31,8 +32,10 @@
                 </td>
             </tr>
         </table>
-        <a href="shop?action=loggedin&username=jocklas&password=1377">Login</a>
-        <a href="shop">Cancel</a>
+        <input type="submit" value="Logga in"/>
+        <input type="reset" value="Återställ"/>
+        <input type="hidden" name="action" value="loggedin"/>
+        </form>
         <br>
         Not a user? Register <a href="shop?action=register">here</a>
     </body>
