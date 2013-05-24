@@ -15,9 +15,9 @@ import java.io.*;
 public class ComputerListBean {
     
     private Collection cpuList;
-    private String url=null;    
+    private String url = null;    
     
-    public ComputerListBean (String _url) throws Exception {
+    public ComputerListBean(String _url) throws Exception {
         url=_url;
         
         Connection conn = null;
@@ -110,7 +110,7 @@ public class ComputerListBean {
             
         } catch(SQLException sqle ){
             throw new Exception(sqle);
-        } finally{
+        } finally {
  	    try{
                 rs.close();
             }
@@ -136,8 +136,6 @@ public class ComputerListBean {
         Iterator iter = cpuList.iterator();
         StringBuffer buff = new StringBuffer();
         
-        
-        //buff.append("<tr><th>Namn</th><th>Beskrivning</th><th>Pris</th></tr>");
         while(iter.hasNext()){
             cb = (ComputerBean)iter.next();
             buff.append("<tr>");
@@ -161,8 +159,7 @@ public class ComputerListBean {
             buff.append("&quan=1\">Lägg till</a></td>");
             buff.append("</tr>");
         }
-    
-        
+
         return buff.toString();
     }
     

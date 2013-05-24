@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Värd: localhost
--- Skapad: 14 maj 2013 kl 12:42
+-- Skapad: 16 maj 2013 kl 11:00
 -- Serverversion: 5.5.24-log
 -- PHP-version: 5.3.13
 
@@ -172,6 +172,8 @@ INSERT INTO `cpu_comp` (`id`, `computer_id`, `component_id`) VALUES
 
 CREATE TABLE IF NOT EXISTS `customers` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) COLLATE utf8_swedish_ci NOT NULL,
+  `password` varchar(50) COLLATE utf8_swedish_ci NOT NULL,
   `Name` varchar(50) COLLATE utf8_swedish_ci NOT NULL,
   `Address` varchar(50) COLLATE utf8_swedish_ci NOT NULL,
   `Mail` varchar(50) COLLATE utf8_swedish_ci NOT NULL,
@@ -183,9 +185,9 @@ CREATE TABLE IF NOT EXISTS `customers` (
 -- Dumpning av Data i tabell `customers`
 --
 
-INSERT INTO `customers` (`id`, `Name`, `Address`, `Mail`, `Phone`) VALUES
-(1, 'Martin Björling', 'Luthagsesplanaden 91, 75271 Uppsala', 'martinbjorling@gmail.com', '0737565044'),
-(2, 'Joakim Ejenstam', 'Rackarbergsgatan 28, 75232 Uppsala', 'joakim.ejenstam@gmail.com', '0701757379');
+INSERT INTO `customers` (`id`, `username`, `password`, `Name`, `Address`, `Mail`, `Phone`) VALUES
+(1, 'blueprint', 'm0ng0b4rn', 'Martin Björling', 'Luthagsesplanaden 91, 75271 Uppsala', 'martinbjorling@gmail.com', '0737565044'),
+(2, 'jocklas', '1377', 'Joakim Ejenstam', 'Rackarbergsgatan 28, 75232 Uppsala', 'joakim.ejenstam@gmail.com', '0701757379');
 
 -- --------------------------------------------------------
 
@@ -196,7 +198,8 @@ INSERT INTO `customers` (`id`, `Name`, `Address`, `Mail`, `Phone`) VALUES
 CREATE TABLE IF NOT EXISTS `orders` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `customer_id` int(10) NOT NULL,
-  `computer_id` int(10) NOT NULL,
+  `order_id` int(10) NOT NULL,
+  `finished` int(10) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=3 ;
 
@@ -204,9 +207,23 @@ CREATE TABLE IF NOT EXISTS `orders` (
 -- Dumpning av Data i tabell `orders`
 --
 
-INSERT INTO `orders` (`id`, `customer_id`, `computer_id`) VALUES
-(1, 1, 4),
-(2, 2, 3);
+INSERT INTO `orders` (`id`, `customer_id`, `order_id`, `finished`) VALUES
+(1, 1, 4, 0),
+(2, 2, 3, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Tabellstruktur `orders_data`
+--
+
+CREATE TABLE IF NOT EXISTS `orders_data` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `order_id` int(10) NOT NULL,
+  `computer_id` int(10) NOT NULL,
+  `quantity` int(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=1 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
