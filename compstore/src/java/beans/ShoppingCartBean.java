@@ -78,7 +78,7 @@ public class ShoppingCartBean {
     
     public void saveOrder(String _url, UserBean pb) throws SQLException {
         String url=_url;
-        
+        ComputerBean cb = null;
         Connection conn = null;
         PreparedStatement stmt1 = null;
         PreparedStatement stmt2 = null;
@@ -95,46 +95,61 @@ public class ShoppingCartBean {
         String orderSQL3 = "INSERT INTO orders_data("
                 + "order_id, computer_id, quantity)"
                 + "VALUES(?,?,?)";
-        
+                
         try{
             Class.forName("com.mysql.jdbc.Driver");
             conn=DriverManager.getConnection(url);
             
-            // Turn off autocommit
-            conn.setAutoCommit(false);
+            Iterator i = shoppingCart.iterator();
+            Object[] buff = null;
+            boolean flag = checkQoh(conn);
+            System.out.println("Debug: flag= " + flag);
+            if(flag) {
             
-            stmt1 = conn.prepareStatement(orderSQL1);
-            stmt1.setInt(1, 1);
-            stmt1.setInt(2, 0);
-            stmt1.execute();
-            
-            stmt2 = conn.prepareStatement(orderSQL2);
-            rs = stmt2.executeQuery();
-            rs.next();
-            
-            int orderID = rs.getInt(1);
-            
-            Iterator iter = shoppingCart.iterator();
-            ComputerBean cb = null;
-            Object cmpBuff[];
-            
-            stmt3 = conn.prepareStatement(orderSQL3);
-            while(iter.hasNext()) {
-                cmpBuff = (Object[])iter.next();
-                cb = (ComputerBean)cmpBuff[0];
+                System.out.println("Debug: Entered loop");
                 
-                stmt3.setInt(1, orderID);
-                stmt3.setInt(2, cb.getID());
-                stmt3.setInt(3, ((Integer)cmpBuff[1]).intValue());
-                stmt3.execute();
+                // Turn off autocommit
+                conn.setAutoCommit(false);
+
+                stmt1 = conn.prepareStatement(orderSQL1);
+                stmt1.setInt(1, pb.getID());
+                stmt1.setInt(2, 0);
+                stmt1.execute();
+
+                stmt2 = conn.prepareStatement(orderSQL2);
+                rs = stmt2.executeQuery();
+                rs.next();
+
+                int orderID = rs.getInt(1);
+
+                Iterator iter = shoppingCart.iterator();
+                cb = null;
+                Object cmpBuff[];
+
+                stmt3 = conn.prepareStatement(orderSQL3);
+                while(iter.hasNext()) {
+                    cmpBuff = (Object[])iter.next();
+                    cb = (ComputerBean)cmpBuff[0];
+
+                    stmt3.setInt(1, orderID);
+                    stmt3.setInt(2, cb.getID());
+                    stmt3.setInt(3, ((Integer)cmpBuff[1]).intValue());
+                    stmt3.execute();
+                    System.out.println("Debug: Added computer " + cb.getName() + " to order DB");
+                }
+
+                conn.commit();
+                System.out.println("Debug: Committed, clearing cart");
+                shoppingCart.clear();
+            } else {
+                throw new Exception("Out of stock");
             }
-            
-            conn.commit();
             
         } catch(Exception e) {
             try {
                 conn.rollback(); // The transaction failed
             } catch(Exception re) {}
+            e.printStackTrace();
             throw new SQLException("Error saving order", e);
         }
         finally {
@@ -174,6 +189,75 @@ public class ShoppingCartBean {
             buff.append("</td></tr>");
         }
         return buff.toString();
+    }
+    
+    public boolean checkQoh(Connection conn) throws Exception {
+        ResultSet rs = null;
+        PreparedStatement stmt = null;
+        Boolean greenLight = true;
+        
+        String query = "SELECT component_id FROM cpu_comp WHERE "
+                + "computer_id = ?";
+       
+        String query2 = "SELECT id, qoh FROM components";
+        
+        HashMap components = new HashMap();
+        Iterator iter = shoppingCart.iterator();
+        Object objBuff[] = null;
+        try {
+            while (iter.hasNext()) {
+                objBuff =(Object[])iter.next();
+
+                int mapValue = 0;
+
+                
+                stmt = conn.prepareStatement(query);
+                stmt.setInt(1, ((ComputerBean)objBuff[0]).getID());
+                rs = stmt.executeQuery();
+
+                while(rs.next()) {
+
+                    if (components.get(rs.getInt("component_id")) != null) {
+                        mapValue = (Integer)components.get(rs.getInt("component_id"));
+
+                        components.put(rs.getInt("component_id"), mapValue+(Integer)objBuff[1]);
+                    } else {
+                        components.put(rs.getInt("component_id"), (Integer)objBuff[1]);
+                    }
+                }
+
+
+               
+            }
+
+            rs = null;
+            Statement s = conn.createStatement();
+            rs = s.executeQuery(query2);
+            while(rs.next()) {
+                if(components.get(rs.getInt("id"))!= null) {
+                    if (((Integer)components.get(rs.getInt("id"))) > rs.getInt("qoh")) {
+                        greenLight = false;
+                        break;
+                    }
+                }
+            }
+        } catch(Exception e) {
+            throw new Exception("SQL error checking quantity", e);
+        }
+        finally {
+                try{
+                    rs.close();
+                }catch(Exception e){}
+                try{
+                    stmt.close();
+                }catch(Exception e){}
+
+        }
+        return greenLight;
+    }
+    
+    public void clear() {
+        shoppingCart.clear();
     }
     
 }

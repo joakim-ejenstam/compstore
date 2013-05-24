@@ -23,7 +23,7 @@ public class UserBean {
         ResultSet rs = null;
         
         String query = "SELECT id, Name FROM customers WHERE "
-                + "username = ? AND"
+                + "username = ? AND "
                 + "password = ? ";
         
         try {
@@ -36,8 +36,8 @@ public class UserBean {
             rs = stmt.executeQuery();
             
             rs.next();
-            id = rs.getInt(1);
-            name = rs.getString(2);
+            id = rs.getInt("id");
+            name = rs.getString("Name");
     
         } catch(Exception e) {
             throw new Exception("Connection error", e);

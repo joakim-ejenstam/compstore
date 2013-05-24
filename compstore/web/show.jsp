@@ -22,7 +22,7 @@
             Error, the bean should have been created in the servlet!
         </jsp:useBean>
         
-        <c:if test="${sessionScope.currentUser != null}"> 
+        <c:if test="${sessionScope.user != null}"> 
         <jsp:useBean id="user" type="beans.UserBean" scope="session">
             Error, the bean should have been created in the servlet!
         </jsp:useBean>
@@ -59,7 +59,10 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <a href="shop?action=checkout">Checkout</a>
+                    <a href="shop?action=checkout">Till kassan</a>
+                </td>
+                <td>
+                    <a href="shop?action=emptyCart">Töm</a>
                 </td>
             </tr>
         </table>

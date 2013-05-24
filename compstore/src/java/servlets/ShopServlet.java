@@ -151,7 +151,11 @@ public class ShopServlet extends HttpServlet {
         // Finalize the customers order
         
         else if (request.getParameter("action").equals("confirm")) {
-            try {scb.saveOrder(jdbcURL, null);} catch(Exception e){}
+            try {
+                scb.saveOrder(jdbcURL, (UserBean)request.getSession().getAttribute("user"));
+            } 
+            catch(Exception e){
+            }
             rd = request.getRequestDispatcher(thanks);
             rd.forward(request, response);
         }
@@ -170,6 +174,12 @@ public class ShopServlet extends HttpServlet {
         
         else if (request.getParameter("action").equals("register")) {
             rd = request.getRequestDispatcher(registerpage);
+            rd.forward(request, response);
+        }
+        
+        else if (request.getParameter("action").equals("emptyCart")) {
+            scb.clear();
+            rd = request.getRequestDispatcher(startpage);
             rd.forward(request, response);
         }
     }
@@ -194,11 +204,12 @@ public class ShopServlet extends HttpServlet {
         user = (UserBean)se.getAttribute("user");
         
         if(user==null) {
-            System.out.println("FUCK YEAH");
+            
             String uname = request.getParameter("username");
             String pword = request.getParameter("password");
             try {user = new UserBean(uname,pword,jdbcURL);}
-            catch(Exception e) {}
+            catch(Exception e) {e.printStackTrace();}
+            if(user==null){System.out.println(uname);}
             se.setAttribute("user", user);
         }
         return user;
