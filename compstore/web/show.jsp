@@ -3,6 +3,7 @@
     Created on : 2013-maj-15, 09:23:32
     Author     : Joakim
 --%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -21,7 +22,17 @@
             Error, the bean should have been created in the servlet!
         </jsp:useBean>
         
+        <c:if test="${sessionScope.currentUser != null}"> 
+        <jsp:useBean id="user" type="beans.UserBean" scope="session">
+            Error, the bean should have been created in the servlet!
+        </jsp:useBean>
+            
+        User: <jsp:getProperty name="user" property="xml"/>
+        </c:if>
+        
         <p>Welcome to the NoBloat computer store!<br> The one and only place for reasonable computer purchases.</p>
+        
+        
         
         <table>
             <tr>
@@ -31,8 +42,7 @@
             </tr>
             <jsp:getProperty name="computerList" property="xml"/>
         </table>
-        
-        
+                
         <br>
         <table border="0" cellspacing="1">
             <tr>
@@ -49,12 +59,17 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <a href="shop">Checkout</a>
+                    <a href="shop?action=checkout">Checkout</a>
                 </td>
             </tr>
-    </table>
+        </table>
         
-        
+    
+    <br>
+    <br>
     <a href="shop?action=login">login</a>
+    <br>
+    <br>
+    <strong>Om du vill lägga stora ordrar, <a href="http://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">ring oss!</a></strong>
     </body>
 </html>

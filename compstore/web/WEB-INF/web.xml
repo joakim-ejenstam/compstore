@@ -33,6 +33,16 @@
             <param-value>/register.jsp</param-value>
             <description>Page for new user registration</description>    
         </init-param>
+        <init-param>
+            <param-name>CHECKOUT_PAGE</param-name>
+            <param-value>/checkout.jsp</param-value>
+            <description>Page for user checkout</description>
+        </init-param>
+        <init-param>
+            <param-name>THANK_PAGE</param-name>
+            <param-value>/tack.jsp</param-value>
+            <description>Page to thank user at checkout</description>
+        </init-param>
     </servlet>
     <servlet-mapping>
         <servlet-name>ShopServlet</servlet-name>

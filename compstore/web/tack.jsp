@@ -1,6 +1,6 @@
 <%-- 
-    Document   : error
-    Created on : 2013-maj-15, 16:35:24
+    Document   : tack
+    Created on : 2013-maj-24, 10:01:33
     Author     : Joakim
 --%>
 
@@ -12,7 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Något har gått jävligt fel!</h1>
-        <a href="shop">Penis!</a>
+        <h1>TACK SÅ JÄVLA MYCKET!!</h1>
+        <a href="shop">Tillbaks till burriton</a>
     </body>
 </html>

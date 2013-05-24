@@ -76,6 +76,86 @@ public class ShoppingCartBean {
         }
     }
     
+    public void saveOrder(String _url, UserBean pb) throws SQLException {
+        String url=_url;
+        
+        Connection conn = null;
+        PreparedStatement stmt1 = null;
+        PreparedStatement stmt2 = null;
+        PreparedStatement stmt3 = null;
+        ResultSet rs = null;
+        
+        
+        String orderSQL1 = "INSERT INTO orders("
+                + "customer_id, finished)"
+                + "VALUES(?,?)";
+        
+        String orderSQL2 = "SELECT LAST_INSERT_ID()";
+        
+        String orderSQL3 = "INSERT INTO orders_data("
+                + "order_id, computer_id, quantity)"
+                + "VALUES(?,?,?)";
+        
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            conn=DriverManager.getConnection(url);
+            
+            // Turn off autocommit
+            conn.setAutoCommit(false);
+            
+            stmt1 = conn.prepareStatement(orderSQL1);
+            stmt1.setInt(1, 1);
+            stmt1.setInt(2, 0);
+            stmt1.execute();
+            
+            stmt2 = conn.prepareStatement(orderSQL2);
+            rs = stmt2.executeQuery();
+            rs.next();
+            
+            int orderID = rs.getInt(1);
+            
+            Iterator iter = shoppingCart.iterator();
+            ComputerBean cb = null;
+            Object cmpBuff[];
+            
+            stmt3 = conn.prepareStatement(orderSQL3);
+            while(iter.hasNext()) {
+                cmpBuff = (Object[])iter.next();
+                cb = (ComputerBean)cmpBuff[0];
+                
+                stmt3.setInt(1, orderID);
+                stmt3.setInt(2, cb.getID());
+                stmt3.setInt(3, ((Integer)cmpBuff[1]).intValue());
+                stmt3.execute();
+            }
+            
+            conn.commit();
+            
+        } catch(Exception e) {
+            try {
+                conn.rollback(); // The transaction failed
+            } catch(Exception re) {}
+            throw new SQLException("Error saving order", e);
+        }
+        finally {
+            try {
+                rs.close();
+            } catch(Exception e) {}
+            try {
+                stmt1.close();
+            } catch(Exception e) {}
+            try {
+                stmt2.close();
+            } catch(Exception e) {}
+            try {
+                stmt3.close();
+            } catch(Exception e) {}
+            try {
+                conn.close();
+            } catch(Exception e) {}
+        }
+    }
+    
     public String getXml() {
         StringBuffer buff = new StringBuffer();
         

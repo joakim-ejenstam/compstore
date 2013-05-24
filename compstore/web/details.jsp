@@ -19,7 +19,6 @@
         <table border="0">
             <tr>
                 <td><a href="shop?action=show">Tillbaka</a></td>
-                <td><a href="shop?action=add&cid=1&quan=1">Lägg till</a></td>            
             </tr>
         </table>
     </body>

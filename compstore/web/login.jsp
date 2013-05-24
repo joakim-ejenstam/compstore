@@ -27,11 +27,11 @@
                     Password
                 </td>
                 <td>
-                    <input size="20" type="text" name="username">
+                    <input size="20" type="text" name="password">
                 </td>
             </tr>
         </table>
-        <a href="shop">Login</a>
+        <a href="shop?action=loggedin&username=jocklas&password=1377">Login</a>
         <a href="shop">Cancel</a>
         <br>
         Not a user? Register <a href="shop?action=register">here</a>
