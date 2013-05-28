@@ -10,6 +10,10 @@ import beans.ShoppingCartBean;
 import beans.UserBean;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -191,7 +195,24 @@ public class ShopServlet extends HttpServlet {
             rd.forward(request, response);
         }
         
+        else if (request.getParameter("action").equals("updateProfile")) {
+            saveProfile(request);
+            rd = request.getRequestDispatcher(startpage);
+            rd.forward(request, response);
+        }
+        
+        else if (request.getParameter("action").equals("registerProfile")) {
+            if(createProfile(request)) {
+                rd = request.getRequestDispatcher(loginpage);
+                rd.forward(request, response);
+            }
+            request.getSession().setAttribute("registerFlag",false);
+            rd = request.getRequestDispatcher(registerpage);
+            rd.forward(request, response);
+        }
+        
         else if (request.getParameter("action").equals("register")) {
+            request.getSession().setAttribute("registerFlag",true);
             rd = request.getRequestDispatcher(registerpage);
             rd.forward(request, response);
         }
@@ -226,12 +247,98 @@ public class ShopServlet extends HttpServlet {
             
             String uname = request.getParameter("username");
             String pword = request.getParameter("password");
-            try {user = new UserBean(uname,pword,jdbcURL);}
-            catch(Exception e) {e.printStackTrace();}
+            
+            try {
+                user = new UserBean();
+                loadProfile(user,uname,pword);
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+            }
+            
             if(user==null){System.out.println(uname);}
             se.setAttribute("user", user);
         }
         return user;
+    }
+    
+    private void saveProfile(HttpServletRequest request) {
+        String name = request.getParameter("name");
+        String address = request.getParameter("address");
+        String mail = request.getParameter("mail");
+        String phone = request.getParameter("phone");
+        
+        UserBean ub = (UserBean) request.getSession().getAttribute("user");
+        
+        ub.setName(name);
+        ub.setAddress(address);
+        ub.setMail(mail);
+        ub.setPhone(phone);
+        
+        try {
+            ub.updateDB(jdbcURL);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void loadProfile(UserBean user, String uname, String pword) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        String query = "SELECT id, Name, Address, Mail, Phone "
+                + "FROM customers WHERE "
+                + "username = ? AND "
+                + "password = ? ";
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn=DriverManager.getConnection(jdbcURL);
+            
+            stmt = conn.prepareStatement(query);
+            stmt.setString(1, uname);
+            stmt.setString(2, pword);
+            rs = stmt.executeQuery();
+            
+            rs.next();
+            user.setID(rs.getInt("id"));
+            user.setName(rs.getString("Name"));
+            user.setAddress(rs.getString("Address"));
+            user.setMail(rs.getString("Mail"));
+            user.setPhone(rs.getString("Phone"));
+    
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private boolean createProfile(HttpServletRequest request) {
+        UserBean user = new UserBean();
+        String pword = request.getParameter("pword");
+        String pword2 = request.getParameter("pword2");
+        
+        if(pword != null && pword2 != null && pword.equals(pword2)) {
+            String uname = request.getParameter("uname");
+            String name = request.getParameter("name");
+            String address = request.getParameter("address");
+            String mail = request.getParameter("mail");
+            String phone = request.getParameter("phone");
+        
+            user.setName(name);
+            user.setAddress(address);
+            user.setMail(mail);
+            user.setPhone(phone);
+            
+            try {
+                user.insertDB(jdbcURL,uname,pword);
+            } catch(Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+            return true;
+        }
+        return false;
     }
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

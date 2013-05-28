@@ -20,54 +20,45 @@ public class UserBean {
     private String mail;
     private String phone;
     
-    public UserBean(String uname, String pword, String url) throws Exception {
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        
-        String query = "SELECT id, Name, Address, Mail, Phone "
-                + "FROM customers WHERE "
-                + "username = ? AND "
-                + "password = ? ";
-        
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            conn=DriverManager.getConnection(url);
-            
-            stmt = conn.prepareStatement(query);
-            stmt.setString(1, uname);
-            stmt.setString(2, pword);
-            rs = stmt.executeQuery();
-            
-            rs.next();
-            id = rs.getInt("id");
-            name = rs.getString("Name");
-            address = rs.getString("Address");
-            mail = rs.getString("Mail");
-            phone = rs.getString("Phone");
-    
-        } catch(Exception e) {
-            throw new Exception("Connection error", e);
-        }
-    }
-    
     public int getID() {
         return id;
-    }
-    
-    public String getName() {
-        return name;
     }
     
     public void setID(int _id) {
         id = _id;
     }
     
+    public String getName() {
+        return name;
+    }
+    
     public void setName(String _name) {
         name = _name;
     }
     
-    public void getAddress(Stri)
+    public String getAddress() {
+        return address;
+    }
+    
+    public void setAddress(String _address) {
+        address = _address;
+    }
+    
+    public String getMail() {
+        return mail;
+    }
+    
+    public void setMail(String _mail) {
+        mail = _mail;
+    }
+    
+    public String getPhone() {
+        return phone;
+    }
+    
+    public void setPhone(String _phone) {
+        phone = _phone;
+    }
     
     public String getXml() {
         StringBuffer xmlOut = new StringBuffer();
@@ -77,5 +68,81 @@ public class UserBean {
         
         return xmlOut.toString();
     }
+ 
+    public void updateDB(String _url) throws Exception {
+        String url = _url;
+        
+        Connection conn = null;
+        
+        PreparedStatement stmt = null;
+        
+        String query = "UPDATE customers SET"
+                + " name=?,"
+                + " address=?,"
+                + " mail=?,"
+                + " phone=?"
+                + " WHERE id=?";
+        
+        System.out.println("Debug, update query: " + query);
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn=DriverManager.getConnection(url);
+            
+            stmt = conn.prepareStatement(query);
+            stmt.setString(1, name);
+            stmt.setString(2, address);
+            stmt.setString(3, mail);
+            stmt.setString(4, phone);
+            stmt.setInt(5, id);
+            stmt.execute();
+            
+        } catch(Exception e) {
+            throw new Exception("Could not update",e);
+        } finally {
+            try {
+                stmt.close();
+                conn.close();
+            } catch (Exception e) {
+                throw new Exception("Could not close connection",e);
+            }
+        }
+    }
     
+    public void insertDB(String _url, String uname, String pword) throws Exception {
+        String url = _url;
+        
+        Connection conn = null;
+        
+        PreparedStatement stmt = null;
+        
+        String query = "INSERT INTO customers"
+                + " (username, password,"
+                + " name, address, mail, phone)"
+                + " VALUES (?,?,?,?,?,?)";
+        
+        System.out.println("Debug, update query: " + query);
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn=DriverManager.getConnection(url);
+            
+            stmt = conn.prepareStatement(query);
+            stmt.setString(1, uname);
+            stmt.setString(2, pword);
+            stmt.setString(3, name);
+            stmt.setString(4, address);
+            stmt.setString(5, mail);
+            stmt.setString(6, phone);
+            stmt.execute();
+            
+        } catch(Exception e) {
+            throw new Exception("Could not insert",e);
+        } finally {
+            try {
+                stmt.close();
+                conn.close();
+            } catch (Exception e) {
+                throw new Exception("Could not close connection",e);
+            }
+        }
+    }
 }
