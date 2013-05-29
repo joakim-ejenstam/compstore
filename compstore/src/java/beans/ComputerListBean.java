@@ -132,7 +132,7 @@ public class ComputerListBean {
     
     public String getXml() {
         
-        ComputerBean cb=null;
+        ComputerBean cb = null;
         Iterator iter = cpuList.iterator();
         StringBuffer buff = new StringBuffer();
         
