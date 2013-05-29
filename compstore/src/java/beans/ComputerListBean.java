@@ -68,7 +68,7 @@ public class ComputerListBean {
         return cpuList;
     }
     
-    public String getXml() {
+    public String getXml() throws Exception {
         
         ComputerBean cb = null;
         Iterator iter = cpuList.iterator();
@@ -104,7 +104,7 @@ public class ComputerListBean {
         return buff.toString();
     }
     
-    public String getManagerxml() {
+    public String getManagerxml() throws Exception {
         
         ComputerBean cb = null;
         Iterator iter = cpuList.iterator();
@@ -136,15 +136,17 @@ public class ComputerListBean {
         return buff.toString();
     }
     
-    public ComputerBean getById(int id) {
+    public ComputerBean getById(int id) throws Exception {
 	ComputerBean cb = null;
 	Iterator iter = cpuList.iterator();
         
 	while(iter.hasNext()){
 	    cb=(ComputerBean)iter.next();
+            
+            cb.setPrice(getComputerPrice(cb));
+            cb.setParts(getComputerParts(cb));
+            
 	    if(cb.getID() == id){
-                cb.setPrice(getComputerPrice(cb));
-                cb.setParts(getComputerParts(cb));
                 return cb;
 	    }
 	}
