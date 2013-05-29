@@ -34,78 +34,16 @@ public class ComputerListBean {
             rs = stmt.executeQuery(sql);
             
             while(rs.next()) {
-                Statement stmt2 = null;
-                ResultSet rs2 = null;
-                int cpuPrice = 0;
-                String cpuParts = "";
-                
                 ComputerBean cb = new ComputerBean();
                 
                 cb.setID(rs.getInt("id"));
                 cb.setName(rs.getString("name"));
                 cb.setDescription(rs.getString("description"));
                 
-                stmt2 = conn.createStatement();
-                String sql2 = "SELECT component_id FROM cpu_comp WHERE ";
-                sql2 += "computer_id = ";
-                sql2 += Integer.toString(rs.getInt("id"));
-                rs2 = stmt2.executeQuery(sql2);
-                
-                while (rs2.next()) {
-                    
-                    Statement stmt3 = null;
-                    ResultSet rs3 = null;
-                    
-                    stmt3 = conn.createStatement();
-                    String sql3 = "SELECT * FROM components WHERE ";
-                    sql3 += "id = ";
-                    sql3 += Integer.toString(rs2.getInt("component_id"));
-                    sql3 += " ORDER BY type ASC";
-                    rs3 = stmt3.executeQuery(sql3);
-                    
-                    while (rs3.next()) {
-                        Statement stmt4 = null;
-                        ResultSet rs4 = null;
-                        String compType = "";
-                        
-                        stmt4 = conn.createStatement();
-                        String sql4 = "SELECT name FROM component_types WHERE ";
-                        sql4 += "id = ";
-                        sql4 += Integer.toString(rs3.getInt("type"));
-                        rs4 = stmt4.executeQuery(sql4);
-                        
-                        while (rs4.next()) {
-                            cpuParts += rs4.getString("name");
-                        }
-                        
-                        cpuParts += ": ";
-                        cpuParts += rs3.getString("name");
-                        cpuParts += "<br>";
-                        
-                        cpuPrice = cpuPrice + rs3.getInt("price");
-                    }
-                    
-                    try {
-                        rs3.close();
-                    } catch(Exception e) {}
-                    try {
-                        stmt3.close();
-                    } catch(Exception e) {}
-                    
-                }
-                
-                cb.setParts(cpuParts);
-                cb.setPrice(cpuPrice);
+                //cb.setParts(getComputerParts(cb));
+                //cb.setPrice(getComputerPrice(cb));
                 
                 cpuList.add(cb);
-                
-                try {
-                    rs2.close();
-                } catch(Exception e) {}
-                try {
-                    stmt2.close();
-                } catch(Exception e) {}
-               
             }
             
         } catch(SQLException sqle ){
@@ -138,6 +76,9 @@ public class ComputerListBean {
         
         while(iter.hasNext()){
             cb = (ComputerBean)iter.next();
+            
+            int cprice = getComputerPrice(cb);
+            
             buff.append("<tr>");
             buff.append("<td>");
             buff.append(cb.getName());
@@ -146,7 +87,7 @@ public class ComputerListBean {
             buff.append(cb.getDescription());
             buff.append("</td>");
             buff.append("<td>");
-            buff.append(cb.getPrice());
+            buff.append(Integer.toString(getComputerPrice(cb)));
             buff.append("</td>");
             buff.append("<td>");
             buff.append("<a href=\"shop?action=details&cid=");
@@ -180,7 +121,7 @@ public class ComputerListBean {
             buff.append(cb.getName());
             buff.append("</td>");
             buff.append("<td>");
-            buff.append(cb.getPrice());
+            buff.append(Integer.toString(getComputerPrice(cb)));
             buff.append("</td>");
             buff.append("<td>");
             buff.append("<input type=\"submit\" value=\"Ändra\"/>");
@@ -202,9 +143,94 @@ public class ComputerListBean {
 	while(iter.hasNext()){
 	    cb=(ComputerBean)iter.next();
 	    if(cb.getID() == id){
+                cb.setPrice(getComputerPrice(cb));
+                cb.setParts(getComputerParts(cb));
                 return cb;
 	    }
 	}
 	return null;
+    }
+    
+    public int getComputerPrice(ComputerBean cb) throws Exception {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        int price = 0;
+        
+        String query = "SELECT SUM(price) AS price FROM components WHERE id IN "
+                + "(SELECT component_id FROM cpu_comp WHERE computer_id=?)";
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn=DriverManager.getConnection(url);
+            
+            stmt = conn.prepareStatement(query);
+            stmt.setInt(1, cb.getID());
+            rs = stmt.executeQuery();
+            
+            rs.next();
+            
+            price = rs.getInt("price");
+            
+        } catch(Exception e) {
+            throw new Exception("Could not get price",e);
+        } finally {
+            try {
+                stmt.close();
+                conn.close();
+            } catch (Exception e) {
+                throw new Exception("Could not close connection",e);
+            }
+        }
+        
+        return price;
+    }
+    
+    public String getComputerParts(ComputerBean cb) throws Exception {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        PreparedStatement stmt2 = null;
+        ResultSet rs = null;
+        ResultSet rs2 = null;
+        
+        String parts = "";
+        
+        String query = "SELECT name, type FROM components WHERE id IN "
+                + "(SELECT component_id FROM cpu_comp WHERE computer_id=?)";
+        
+        String query2 = "SELECT name FROM component_types WHERE id=?";
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn=DriverManager.getConnection(url);
+            
+            stmt = conn.prepareStatement(query);
+            stmt.setInt(1, cb.getID());
+            rs = stmt.executeQuery();
+            
+            while(rs.next()) {
+                stmt2 = conn.prepareStatement(query2);
+                stmt.setInt(2, rs.getInt("type"));
+                
+                rs2 = stmt2.executeQuery();
+                
+                parts += rs2.getString("name"); 
+                parts += ": ";
+                parts += rs.getString("name");
+                parts += "<br />";
+            }
+        } catch(Exception e) {
+            throw new Exception("Could not get parts",e);
+        } finally {
+            try {
+                stmt.close();
+                conn.close();
+            } catch (Exception e) {
+                throw new Exception("Could not close connection",e);
+            }
+        }
+        
+        return parts;
     }
 }
