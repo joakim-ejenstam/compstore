@@ -163,6 +163,38 @@ public class ComputerListBean {
         return buff.toString();
     }
     
+    public String getManagerxml() {
+        
+        ComputerBean cb = null;
+        Iterator iter = cpuList.iterator();
+        StringBuffer buff = new StringBuffer();
+        
+        while(iter.hasNext()){
+            cb = (ComputerBean)iter.next();
+            buff.append("<form action=\"shop?addProduct\" method=\"post\">");
+            buff.append("<tr>");
+            buff.append("<td>");
+            buff.append(cb.getID());
+            buff.append("</td>");
+            buff.append("<td>");
+            buff.append(cb.getName());
+            buff.append("</td>");
+            buff.append("<td>");
+            buff.append(cb.getPrice());
+            buff.append("</td>");
+            buff.append("<td>");
+            buff.append("<input type=\"submit\" value=\"Ändra\"");
+            buff.append("<input type=\"hidden\" name=\"cid\" value=\"");
+            buff.append(cb.getID());
+            buff.append("\"/>");
+            buff.append("</td>");
+            buff.append("</tr>");
+            buff.append("</form>");
+        }
+
+        return buff.toString();
+    }
+    
     public ComputerBean getById(int id) {
 	ComputerBean cb = null;
 	Iterator iter = cpuList.iterator();

@@ -12,7 +12,61 @@
         <title>NoBloat: Manager panel</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
-        <a href="shop">Klicka här!</a>
+        <h1>Admin panel</h1>
+        <jsp:useBean id="manager" type="beans.ManagerBean" scope="session">
+            Error, the bean should have been created in the servlet!
+        </jsp:useBean>
+          
+        <h2>Komponentlista</h2>
+        <table>
+            <tr bgcolor="yellow">
+                <td>
+                    Namn
+                </td>
+                <td>
+                    Typ
+                </td>
+                <td>
+                    Pris
+                </td>
+                <td>
+                    Lager saldo
+                </td>
+            </tr>
+            <jsp:getProperty name="manager" property="componentXml"/>
+        </table>
+        
+        <br>
+        <h2>Produktlista</h2>
+        <table>
+            <tr bgcolor="yellow">
+                <td>
+                    ID
+                </td>
+                <td>
+                    Namn
+                </td>
+                <td>
+                    Pris
+                </td>
+            </tr>
+            <jsp:getProperty name="manager" property="computerXml"/>
+        </table>
+        <table>
+            <tr>
+                <td>
+                    <form action="shop" method="post">
+                        <input type="submit" value="Avbryt"/>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <form action="shop?action=addProduct" method="post">
+                        <input type="submit" value="Ny produkt"/>
+                    </form>
+                </td>
+            </tr>
+        </table>
     </body>
 </html>

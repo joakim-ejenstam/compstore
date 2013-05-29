@@ -71,7 +71,7 @@ public class ComponentListBean {
         return compList;
     }
     
-    public String getXml() {
+    public String getManagerxml() {
         
         ComponentBean cob = null;
         Iterator iter = compList.iterator();
@@ -79,6 +79,7 @@ public class ComponentListBean {
         
         while(iter.hasNext()){
             cob = (ComponentBean)iter.next();
+            buff.append("<form action=\"shop?action=updateStock\" method=\"post\">");
             buff.append("<tr>");
             buff.append("<td>");
             buff.append(cob.getName());
@@ -87,15 +88,20 @@ public class ComponentListBean {
             buff.append(cob.getType());
             buff.append("</td>");
             buff.append("<td>");
+            buff.append("<input type=\"text\" value=\"");
             buff.append(cob.getPrice());
+            buff.append("\" size=\"5\"/>");
             buff.append("</td>");
             buff.append("<td>");
+            buff.append("<input type=\"text\" value=\"");
             buff.append(cob.getQoh());
+            buff.append("\"size=\"5\"/>");
             buff.append("</td>");
             buff.append("<td>");
-            buff.append(cob.getDescription());
+            buff.append("<input type=\"submit\" value=\"Ändra\"/>");
             buff.append("</td>");
             buff.append("</tr>");
+            buff.append("</form>");
         }
         
         return buff.toString();

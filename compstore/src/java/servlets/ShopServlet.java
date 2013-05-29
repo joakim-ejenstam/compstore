@@ -4,8 +4,10 @@
  */
 package servlets;
 
+import beans.ComponentListBean;
 import beans.ComputerBean;
 import beans.ComputerListBean;
+import beans.ManagerBean;
 import beans.ShoppingCartBean;
 import beans.UserBean;
 import java.io.IOException;
@@ -40,6 +42,7 @@ public class ShopServlet extends HttpServlet {
     private static String managerpage = null;
     
     private ComputerListBean cList = null;
+    private ComponentListBean compList = null;
     
     /**
      * Initializer for the servlet.
@@ -61,7 +64,9 @@ public class ShopServlet extends HttpServlet {
         managerpage = config.getInitParameter("MANAGER_PAGE");
         
         try{
-            cList = new ComputerListBean(jdbcURL); }
+            cList = new ComputerListBean(jdbcURL);
+            compList = new ComponentListBean(jdbcURL);
+        }
         catch(Exception e) {
             throw new ServletException(e);
         }
@@ -226,6 +231,12 @@ public class ShopServlet extends HttpServlet {
         }
         
         else if (request.getParameter("action").equals("manager")) {
+            request.getSession().setAttribute("manager", new ManagerBean(jdbcURL,compList,cList));
+            rd = request.getRequestDispatcher(managerpage);
+            rd.forward(request, response);
+        }
+        
+        else if (request.getParameter("action").equals("updateStock")) {
             rd = request.getRequestDispatcher(managerpage);
             rd.forward(request, response);
         }
