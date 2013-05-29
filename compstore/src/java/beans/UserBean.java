@@ -19,6 +19,7 @@ public class UserBean {
     private String address;
     private String mail;
     private String phone;
+    private int manager;
     
     public int getID() {
         return id;
@@ -26,6 +27,14 @@ public class UserBean {
     
     public void setID(int _id) {
         id = _id;
+    }
+    
+    public int getManager() {
+        return manager;
+    }
+    
+    public void setManager(int _manager) {
+        manager = _manager;
     }
     
     public String getName() {

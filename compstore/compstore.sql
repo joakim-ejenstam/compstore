@@ -2,10 +2,10 @@
 -- version 3.5.1
 -- http://www.phpmyadmin.net
 --
--- Värd: localhost
--- Skapad: 16 maj 2013 kl 11:00
--- Serverversion: 5.5.24-log
--- PHP-version: 5.3.13
+-- Host: localhost
+-- Generation Time: May 29, 2013 at 08:16 AM
+-- Server version: 5.5.24-log
+-- PHP Version: 5.3.13
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,13 +17,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Databas: `compstore`
+-- Database: `compstore`
 --
 
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `components`
+-- Table structure for table `components`
 --
 
 CREATE TABLE IF NOT EXISTS `components` (
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `components` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=25 ;
 
 --
--- Dumpning av Data i tabell `components`
+-- Dumping data for table `components`
 --
 
 INSERT INTO `components` (`id`, `name`, `type`, `price`, `qoh`, `description`) VALUES
@@ -69,7 +69,7 @@ INSERT INTO `components` (`id`, `name`, `type`, `price`, `qoh`, `description`) V
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `component_types`
+-- Table structure for table `component_types`
 --
 
 CREATE TABLE IF NOT EXISTS `component_types` (
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `component_types` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=9 ;
 
 --
--- Dumpning av Data i tabell `component_types`
+-- Dumping data for table `component_types`
 --
 
 INSERT INTO `component_types` (`id`, `name`) VALUES
@@ -95,7 +95,7 @@ INSERT INTO `component_types` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `computers`
+-- Table structure for table `computers`
 --
 
 CREATE TABLE IF NOT EXISTS `computers` (
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `computers` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=5 ;
 
 --
--- Dumpning av Data i tabell `computers`
+-- Dumping data for table `computers`
 --
 
 INSERT INTO `computers` (`id`, `name`, `description`) VALUES
@@ -118,7 +118,7 @@ INSERT INTO `computers` (`id`, `name`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `cpu_comp`
+-- Table structure for table `cpu_comp`
 --
 
 CREATE TABLE IF NOT EXISTS `cpu_comp` (
@@ -129,7 +129,7 @@ CREATE TABLE IF NOT EXISTS `cpu_comp` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=33 ;
 
 --
--- Dumpning av Data i tabell `cpu_comp`
+-- Dumping data for table `cpu_comp`
 --
 
 INSERT INTO `cpu_comp` (`id`, `computer_id`, `component_id`) VALUES
@@ -167,7 +167,7 @@ INSERT INTO `cpu_comp` (`id`, `computer_id`, `component_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `customers`
+-- Table structure for table `customers`
 --
 
 CREATE TABLE IF NOT EXISTS `customers` (
@@ -178,43 +178,50 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `Address` varchar(50) COLLATE utf8_swedish_ci NOT NULL,
   `Mail` varchar(50) COLLATE utf8_swedish_ci NOT NULL,
   `Phone` varchar(15) COLLATE utf8_swedish_ci NOT NULL,
+  `manager` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=5 ;
 
 --
--- Dumpning av Data i tabell `customers`
+-- Dumping data for table `customers`
 --
 
-INSERT INTO `customers` (`id`, `username`, `password`, `Name`, `Address`, `Mail`, `Phone`) VALUES
-(1, 'blueprint', 'm0ng0b4rn', 'Martin Björling', 'Luthagsesplanaden 91, 75271 Uppsala', 'martinbjorling@gmail.com', '0737565044'),
-(2, 'jocklas', '1377', 'Joakim Ejenstam', 'Rackarbergsgatan 28, 75232 Uppsala', 'joakim.ejenstam@gmail.com', '0701757379');
+INSERT INTO `customers` (`id`, `username`, `password`, `Name`, `Address`, `Mail`, `Phone`, `manager`) VALUES
+(1, 'blueprint', 'm0ng0b4rn', 'Martin Björling', 'Luthagsesplanaden 91, 75271 Uppsala', 'martinbjorling@gmail.com', '0737565044', 0),
+(2, 'jocklas', '1377', 'Joakim Ejenstam', 'Rackarbergsgatan 28, 75232 Uppsala', 'joakimejenstam@me.com', '132948928374', 0),
+(3, 'konve', '123', 'Jonatan Jansson', 'Villa villerkulla', 'jonatan@kurridurridutt.Ã¶n', '1234567890', 0),
+(4, 'penis', 'hej', 'hej', 'hej', 'hej', 'hej', 0);
 
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `orders`
+-- Table structure for table `orders`
 --
 
 CREATE TABLE IF NOT EXISTS `orders` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `customer_id` int(10) NOT NULL,
-  `order_id` int(10) NOT NULL,
   `finished` int(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=25 ;
 
 --
--- Dumpning av Data i tabell `orders`
+-- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `customer_id`, `order_id`, `finished`) VALUES
-(1, 1, 4, 0),
-(2, 2, 3, 0);
+INSERT INTO `orders` (`id`, `customer_id`, `finished`) VALUES
+(3, 1, 0),
+(4, 1, 0),
+(5, 2, 0),
+(6, 2, 0),
+(22, 2, 0),
+(23, 2, 0),
+(24, 2, 0);
 
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `orders_data`
+-- Table structure for table `orders_data`
 --
 
 CREATE TABLE IF NOT EXISTS `orders_data` (
@@ -223,7 +230,27 @@ CREATE TABLE IF NOT EXISTS `orders_data` (
   `computer_id` int(10) NOT NULL,
   `quantity` int(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=15 ;
+
+--
+-- Dumping data for table `orders_data`
+--
+
+INSERT INTO `orders_data` (`id`, `order_id`, `computer_id`, `quantity`) VALUES
+(1, 3, 1, 1),
+(2, 3, 2, 1),
+(3, 3, 3, 1),
+(4, 3, 4, 1),
+(5, 4, 1, 7),
+(6, 5, 2, 1),
+(7, 5, 3, 1),
+(8, 6, 2, 1),
+(9, 22, 1, 1),
+(10, 22, 2, 1),
+(11, 22, 3, 1),
+(12, 22, 4, 1),
+(13, 23, 3, 11),
+(14, 24, 3, 3);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

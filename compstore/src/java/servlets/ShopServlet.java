@@ -287,7 +287,7 @@ public class ShopServlet extends HttpServlet {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         
-        String query = "SELECT id, Name, Address, Mail, Phone "
+        String query = "SELECT id, Name, Address, Mail, Phone, manager "
                 + "FROM customers WHERE "
                 + "username = ? AND "
                 + "password = ? ";
@@ -307,6 +307,7 @@ public class ShopServlet extends HttpServlet {
             user.setAddress(rs.getString("Address"));
             user.setMail(rs.getString("Mail"));
             user.setPhone(rs.getString("Phone"));
+            user.setManager(rs.getInt("manager")); 
     
         } catch(Exception e) {
             e.printStackTrace();
