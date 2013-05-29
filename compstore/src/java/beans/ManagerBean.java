@@ -23,6 +23,10 @@ public class ManagerBean {
         url = _url;
     }
     
+    public ComponentBean getComponent(int i) {
+        return compList.getById(i);
+    }
+    
     public String getComponentXml() {
         return compList.getManagerxml();
     }
@@ -39,7 +43,7 @@ public class ManagerBean {
         String query = "UPDATE components SET"
                 + " price=?,"
                 + " qoh=?"
-                + " description=?"
+                /*+ " description=?"*/
                 + " WHERE id=?";
         
         try {
@@ -49,8 +53,8 @@ public class ManagerBean {
             stmt = conn.prepareStatement(query);
             stmt.setInt(1, _cob.getPrice());
             stmt.setInt(2, _cob.getQoh());
-            stmt.setString(3, _cob.getDescription());
-            stmt.setInt(5, _cob.getID());
+            /*stmt.setString(3, _cob.getDescription());*/
+            stmt.setInt(3, _cob.getID());
             stmt.execute();
             
         } catch(Exception e) {

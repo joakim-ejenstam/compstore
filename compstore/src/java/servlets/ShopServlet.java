@@ -4,6 +4,7 @@
  */
 package servlets;
 
+import beans.ComponentBean;
 import beans.ComponentListBean;
 import beans.ComputerBean;
 import beans.ComputerListBean;
@@ -40,6 +41,7 @@ public class ShopServlet extends HttpServlet {
     private static String thanks = null;
     private static String profilepage = null;
     private static String managerpage = null;
+    private static String newcomputer = null;
     
     private ComputerListBean cList = null;
     private ComponentListBean compList = null;
@@ -62,6 +64,7 @@ public class ShopServlet extends HttpServlet {
         thanks = config.getInitParameter("THANK_PAGE");
         profilepage = config.getInitParameter("PROFILE_PAGE");
         managerpage = config.getInitParameter("MANAGER_PAGE");
+        newcomputer = config.getInitParameter("NEW_PAGE");
         
         try{
             cList = new ComputerListBean(jdbcURL);
@@ -237,7 +240,29 @@ public class ShopServlet extends HttpServlet {
         }
         
         else if (request.getParameter("action").equals("updateStock")) {
+            ManagerBean mb = (ManagerBean)request.getSession().getAttribute("manager");
+            if(mb != null) {
+                System.out.println(mb);
+                ComponentBean cb = 
+                        mb.getComponent(Integer.parseInt(request.getParameter("cid")));
+                cb.setPrice(Integer.parseInt(request.getParameter("price")));
+                cb.setQoh(Integer.parseInt(request.getParameter("qoh")));
+                try { 
+                    mb.updateComponent(cb);
+                }catch(Exception e) {
+                    e.printStackTrace();
+                }
+            }
             rd = request.getRequestDispatcher(managerpage);
+            rd.forward(request, response);
+        }
+        
+        else if(request.getParameter("action").equals("addProduct")) {
+            request.getSession().
+                    setAttribute(
+                    "changeComputer", 
+                    cList.getById(Integer.parseInt(request.getParameter("cid"))));
+            rd = request.getRequestDispatcher(newcomputer);
             rd.forward(request, response);
         }
     }

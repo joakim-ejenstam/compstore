@@ -171,7 +171,7 @@ public class ComputerListBean {
         
         while(iter.hasNext()){
             cb = (ComputerBean)iter.next();
-            buff.append("<form action=\"shop?addProduct\" method=\"post\">");
+            buff.append("<form action=\"shop?action=addProduct\" method=\"post\">");
             buff.append("<tr>");
             buff.append("<td>");
             buff.append(cb.getID());
@@ -183,7 +183,7 @@ public class ComputerListBean {
             buff.append(cb.getPrice());
             buff.append("</td>");
             buff.append("<td>");
-            buff.append("<input type=\"submit\" value=\"Ändra\"");
+            buff.append("<input type=\"submit\" value=\"Ändra\"/>");
             buff.append("<input type=\"hidden\" name=\"cid\" value=\"");
             buff.append(cb.getID());
             buff.append("\"/>");

@@ -60,13 +60,6 @@
                     </form>
                 </td>
             </tr>
-            <tr>
-                <td>
-                    <form action="shop?action=addProduct" method="post">
-                        <input type="submit" value="Ny produkt"/>
-                    </form>
-                </td>
-            </tr>
         </table>
     </body>
 </html>
