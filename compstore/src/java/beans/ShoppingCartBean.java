@@ -139,6 +139,10 @@ public class ShoppingCartBean {
                 }
 
                 conn.commit();
+                
+                conn.setAutoCommit(true);
+                removeQoh(conn);
+                
                 System.out.println("Debug: Committed, clearing cart");
                 shoppingCart.clear();
             } else {
@@ -210,7 +214,6 @@ public class ShoppingCartBean {
 
                 int mapValue = 0;
 
-                
                 stmt = conn.prepareStatement(query);
                 stmt.setInt(1, ((ComputerBean)objBuff[0]).getID());
                 rs = stmt.executeQuery();
@@ -225,14 +228,12 @@ public class ShoppingCartBean {
                         components.put(rs.getInt("component_id"), (Integer)objBuff[1]);
                     }
                 }
-
-
-               
             }
 
             rs = null;
             Statement s = conn.createStatement();
             rs = s.executeQuery(query2);
+            
             while(rs.next()) {
                 if(components.get(rs.getInt("id"))!= null) {
                     if (((Integer)components.get(rs.getInt("id"))) > rs.getInt("qoh")) {
@@ -245,19 +246,59 @@ public class ShoppingCartBean {
             throw new Exception("SQL error checking quantity", e);
         }
         finally {
-                try{
-                    rs.close();
-                }catch(Exception e){}
-                try{
-                    stmt.close();
-                }catch(Exception e){}
-
+            try{
+                rs.close();
+            }catch(Exception e){}
+            try{
+                stmt.close();
+            }catch(Exception e){}
         }
+        
         return greenLight;
+    }
+    
+    public void removeQoh(Connection conn) throws Exception {
+        ResultSet rs = null;
+        PreparedStatement stmt = null;
+        PreparedStatement stmt2 = null;
+        
+        String query = "SELECT component_id FROM cpu_comp WHERE "
+                + "computer_id = ?";
+       
+        String query2 = "UPDATE components SET qoh = qoh - ? WHERE id = ?";
+        
+        Iterator iter = shoppingCart.iterator();
+        Object objBuff[] = null;
+        
+        try {
+            while (iter.hasNext()) {
+                objBuff =(Object[])iter.next();
+
+                stmt = conn.prepareStatement(query);
+                stmt.setInt(1, ((ComputerBean)objBuff[0]).getID());
+                rs = stmt.executeQuery();
+
+                while(rs.next()) {
+                    stmt2 = conn.prepareStatement(query2);
+                    stmt2.setInt(1, (Integer)objBuff[1]);
+                    stmt2.setInt(2, rs.getInt("component_id"));
+                    stmt2.execute();
+                }
+            }    
+        } catch(Exception e) {
+            throw new Exception("SQL error removing QOH on component", e);
+        }
+        finally {
+            try{
+                rs.close();
+            }catch(Exception e){}
+            try{
+                stmt.close();
+            }catch(Exception e){}
+        }
     }
     
     public void clear() {
         shoppingCart.clear();
     }
-    
 }
