@@ -12,7 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>TACK SÅ JÄVLA MYCKET!!</h1>
-        <a href="shop">Tillbaks till burriton</a>
+        <h1>Tack för att du handlar hos <b>NoBloat Computer Shop!</b></h1>
+        <a href="shop">Tillbaks till butiken</a>
     </body>
 </html>

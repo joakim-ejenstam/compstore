@@ -37,6 +37,7 @@ public class ShopServlet extends HttpServlet {
     private static String checkpage = null;
     private static String thanks = null;
     private static String profilepage = null;
+    private static String managerpage = null;
     
     private ComputerListBean cList = null;
     
@@ -57,6 +58,7 @@ public class ShopServlet extends HttpServlet {
         checkpage = config.getInitParameter("CHECKOUT_PAGE");
         thanks = config.getInitParameter("THANK_PAGE");
         profilepage = config.getInitParameter("PROFILE_PAGE");
+        managerpage = config.getInitParameter("MANAGER_PAGE");
         
         try{
             cList = new ComputerListBean(jdbcURL); }
@@ -220,6 +222,11 @@ public class ShopServlet extends HttpServlet {
         else if (request.getParameter("action").equals("emptyCart")) {
             scb.clear();
             rd = request.getRequestDispatcher(startpage);
+            rd.forward(request, response);
+        }
+        
+        else if (request.getParameter("action").equals("manager")) {
+            rd = request.getRequestDispatcher(managerpage);
             rd.forward(request, response);
         }
     }

@@ -14,7 +14,7 @@
     <body>
         <h1>Login to NoBloat webshop</h1>
         <form method="POST" action="shop">
-        <table border="1">
+        <table>
             <tr>
                 <td>
                     Username

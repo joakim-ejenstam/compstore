@@ -48,6 +48,11 @@
             <param-value>/profile.jsp</param-value>
             <description>Page to handle profile</description>
         </init-param>
+        <init-param>
+            <param-name>MANAGER_PAGE</param-name>
+            <param-value>/manager.jsp</param-value>
+            <description>Page for the managers panel</description>
+        </init-param>
     </servlet>
     <servlet-mapping>
         <servlet-name>ShopServlet</servlet-name>

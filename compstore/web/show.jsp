@@ -84,6 +84,15 @@
                     </form>
                 </td>
             </tr>
+            <tr>
+                <td>    
+                    <c:if test="${user.manager == 1}">
+                        <form action="shop?action=manager" method="post">
+                            <input type="submit" value="Chefspanelen"> 
+                        </form>
+                    </c:if>
+                </td>
+            </tr>
         </table>             
     </c:if>
     <c:if test="${sessionScope.user == null}">
