@@ -258,10 +258,11 @@ public class ShopServlet extends HttpServlet {
         }
         
         else if(request.getParameter("action").equals("addProduct")) {
-            request.getSession().
-                    setAttribute(
+            if(request.getParameter("cid") != null) {
+                request.getSession().setAttribute(
                     "changeComputer", 
                     cList.getById(Integer.parseInt(request.getParameter("cid"))));
+            }
             rd = request.getRequestDispatcher(newcomputer);
             rd.forward(request, response);
         }

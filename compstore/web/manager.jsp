@@ -55,6 +55,13 @@
         <table>
             <tr>
                 <td>
+                    <form action="shop?action=addProduct" method="post">
+                        <input type="submit" value="Lägg till"/>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td>
                     <form action="shop" method="post">
                         <input type="submit" value="Avbryt"/>
                     </form>
