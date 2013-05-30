@@ -127,8 +127,15 @@ public class ComputerListBean {
             buff.append(cb.getID());
             buff.append("\"/>");
             buff.append("</td>");
-            buff.append("</tr>");
             buff.append("</form>");
+            buff.append("<td>");
+            buff.append("<form action=\"shop?action=removeProduct\" method=\"post\">");
+            buff.append("<input type=\"submit\" value=\"Ta bort\"/>");
+            buff.append("<input type=\"hidden\" name=\"cid\" value=\"");
+            buff.append(cb.getID());
+            buff.append("\"/></form>");
+            buff.append("</td>");
+            buff.append("</tr>");
         }
 
         return buff.toString();
@@ -149,6 +156,17 @@ public class ComputerListBean {
 	    }
 	}
 	return null;
+    }
+    
+    public void removeById(int id) throws Exception {
+        ComputerBean cb = null;
+        Iterator iter = cpuList.iterator();
+        while(iter.hasNext()) {
+            cb = (ComputerBean)iter.next();
+            if(cb.getID() == id){
+                cpuList.remove(cb);
+            }
+        }
     }
     
     public int getComputerPrice(ComputerBean cb) {
@@ -333,6 +351,8 @@ public class ComputerListBean {
                 stmt3.setInt(2, Integer.parseInt(s));
                 stmt3.execute();
             }
+            
+            cpuList.add(cb);
 
         } catch(Exception e) {
             e.printStackTrace();
@@ -369,6 +389,8 @@ public class ComputerListBean {
             stmt2 = conn.prepareStatement(deleteQuery2);
             stmt2.setInt(1, cb.getID());
             stmt2.execute();
+            
+            removeById(cb.getID());
 
         } catch(Exception e) {
             e.printStackTrace();
