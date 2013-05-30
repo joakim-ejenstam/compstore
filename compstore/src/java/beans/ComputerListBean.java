@@ -280,9 +280,9 @@ public class ComputerListBean {
             stmt.setInt(3, cb.getID());
             stmt.execute();
             
-            stmt = conn.prepareStatement(deleteQuery);
-            stmt.setInt(1, cb.getID());
-            stmt.execute();
+            stmt2 = conn.prepareStatement(deleteQuery);
+            stmt2.setInt(1, cb.getID());
+            stmt2.execute();
             
             String[] splitArray = cb.getParts().split(":");
             

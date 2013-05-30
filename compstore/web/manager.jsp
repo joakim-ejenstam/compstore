@@ -35,6 +35,15 @@
             </tr>
             <jsp:getProperty name="manager" property="componentXml"/>
         </table>
+        <table>
+            <tr>
+                <td>
+                    <form action="shop?action=addComponent" method="post">
+                        <input type="submit" value="Lägg till"/>
+                    </form>
+                </td>
+            </tr>
+        </table>
         
         <br>
         <h2>Produktlista</h2>

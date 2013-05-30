@@ -41,7 +41,7 @@ public class ManagerBean {
         return returnString;
     }
     
-    public void updateComponent(ComponentBean _cob) throws Exception {
+    public void updatePriceqoh(ComponentBean cob) throws Exception {
         Connection conn = null;
         
         PreparedStatement stmt = null;
@@ -57,10 +57,10 @@ public class ManagerBean {
             conn=DriverManager.getConnection(url);
             
             stmt = conn.prepareStatement(query);
-            stmt.setInt(1, _cob.getPrice());
-            stmt.setInt(2, _cob.getQoh());
+            stmt.setInt(1, cob.getPrice());
+            stmt.setInt(2, cob.getQoh());
             /*stmt.setString(3, _cob.getDescription());*/
-            stmt.setInt(3, _cob.getID());
+            stmt.setInt(3, cob.getID());
             stmt.execute();
             
         } catch(Exception e) {
@@ -74,7 +74,7 @@ public class ManagerBean {
             }
         }
     }
-    
+    /*
     public void deleteComponent(ComponentBean _cob) throws Exception {
         Connection conn = null;
         
@@ -135,4 +135,5 @@ public class ManagerBean {
             }
         }
     }
+    */
 }

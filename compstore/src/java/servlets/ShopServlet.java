@@ -42,6 +42,7 @@ public class ShopServlet extends HttpServlet {
     private static String profilepage = null;
     private static String managerpage = null;
     private static String newcomputer = null;
+    private static String newcomponent = null;
     
     private ComputerListBean cList = null;
     private ComponentListBean compList = null;
@@ -64,7 +65,8 @@ public class ShopServlet extends HttpServlet {
         thanks = config.getInitParameter("THANK_PAGE");
         profilepage = config.getInitParameter("PROFILE_PAGE");
         managerpage = config.getInitParameter("MANAGER_PAGE");
-        newcomputer = config.getInitParameter("NEW_PAGE");
+        newcomputer = config.getInitParameter("NEWCPU_PAGE");
+        newcomponent = config.getInitParameter("NEWCOMP_PAGE");
         
         try{
             cList = new ComputerListBean(jdbcURL);
@@ -76,6 +78,7 @@ public class ShopServlet extends HttpServlet {
         
         ServletContext sc = getServletContext();
         sc.setAttribute("computerList",cList);
+        sc.setAttribute("componentList", compList);
                 
     }
 
@@ -240,12 +243,12 @@ public class ShopServlet extends HttpServlet {
             ManagerBean mb = (ManagerBean)request.getSession().getAttribute("manager");
             if(mb != null) {
                 System.out.println(mb);
-                ComponentBean cb = 
-                        mb.getComponent(Integer.parseInt(request.getParameter("cid")));
-                cb.setPrice(Integer.parseInt(request.getParameter("price")));
-                cb.setQoh(Integer.parseInt(request.getParameter("qoh")));
+                ComponentBean cob = 
+                        mb.getComponent(Integer.parseInt(request.getParameter("compid")));
+                cob.setPrice(Integer.parseInt(request.getParameter("price")));
+                cob.setQoh(Integer.parseInt(request.getParameter("qoh")));
                 try { 
-                    mb.updateComponent(cb);
+                    mb.updatePriceqoh(cob);
                 }catch(Exception e) {
                     e.printStackTrace();
                 }
@@ -287,6 +290,43 @@ public class ShopServlet extends HttpServlet {
         else if(request.getParameter("action").equals("removeProduct")) {
             ComputerBean cb = getCBean(request);
             cList.deleteComputer(cb);
+            rd = request.getRequestDispatcher(managerpage);
+            rd.forward(request, response);
+        }
+        
+        else if(request.getParameter("action").equals("addComponent")) {
+            request.getSession().setAttribute(
+                        "components",
+                        compList);
+            request.getSession().removeAttribute("changeComponent");
+            if(request.getParameter("compid") != null) {
+                request.getSession().setAttribute(
+                    "changeComponent", 
+                    getCompbean(request));
+            }
+            rd = request.getRequestDispatcher(newcomponent);
+            rd.forward(request, response);
+        }
+        
+        else if(request.getParameter("action").equals("updateComponent")) {
+            ComponentBean cob = (ComponentBean) request.getSession().getAttribute("changeComponent");
+            System.out.println(cob);
+            if (cob != null) {
+                cob = updateComponentbean(cob, request);
+                compList.updateComponent(cob);
+                
+            } else {
+                cob = updateComponentbean(cob,request);
+                compList.insertComponent(cob);
+            }
+            
+            rd = request.getRequestDispatcher(managerpage);
+            rd.forward(request, response);
+        }
+        
+        else if(request.getParameter("action").equals("removeComponent")) {
+            ComponentBean cob = getCompbean(request);
+            compList.deleteComponent(cob);
             rd = request.getRequestDispatcher(managerpage);
             rd.forward(request, response);
         }
@@ -437,6 +477,37 @@ public class ShopServlet extends HttpServlet {
         cb.setParts(parts);
         
         return cb;
+    }
+    
+    private ComponentBean getCompbean(HttpServletRequest request) {
+        ComponentBean returnBean = null;
+        try {
+            int id = Integer.parseInt(request.getParameter("compid"));
+            returnBean = compList.getById(id);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return returnBean;
+    }
+    
+    private ComponentBean updateComponentbean(ComponentBean cob, HttpServletRequest request) {
+        if (cob == null) {
+            cob = new ComponentBean();
+        }
+               
+        cob.setName(request.getParameter("name"));
+        System.out.println(cob.getName());
+        cob.setType(Integer.parseInt(request.getParameter("type")));
+        System.out.println(cob.getType());
+        System.out.println(Integer.parseInt(request.getParameter("price")));
+        cob.setPrice(Integer.parseInt(request.getParameter("price")));
+        System.out.println(cob.getPrice());
+        cob.setQoh(Integer.parseInt(request.getParameter("qoh")));
+        System.out.println(cob.getQoh());
+        cob.setDescription(request.getParameter("description"));
+        System.out.println(cob.getDescription());
+        
+        return cob;
     }
         
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

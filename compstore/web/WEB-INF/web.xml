@@ -54,9 +54,14 @@
             <description>Page for the managers panel</description>
         </init-param>
         <init-param>
-            <param-name>NEW_PAGE</param-name>
+            <param-name>NEWCPU_PAGE</param-name>
             <param-value>/newComputer.jsp</param-value>
             <description>Page for managers to add/change products</description>
+        </init-param>
+        <init-param>
+            <param-name>NEWCOMP_PAGE</param-name>
+            <param-value>/newComponent.jsp</param-value>
+            <description>Page for managers to add/change components</description>
         </init-param>
     </servlet>
     <servlet-mapping>

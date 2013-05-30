@@ -100,11 +100,26 @@ public class ComponentListBean {
             buff.append("<td>");
             buff.append("<input type=\"hidden\" value=\"");
             buff.append(cob.getID());
-            buff.append("\" name=\"cid\"/>");
-            buff.append("<input type=\"submit\" value=\"Ändra\"/>");
+            buff.append("\" name=\"compid\"/>");
+            buff.append("<input type=\"submit\" value=\"Ändra pris/antal\"/>");
+            buff.append("</td>");
+            buff.append("</form>");
+            buff.append("<td>");
+            buff.append("<form action=\"shop?action=addComponent\" method=\"post\">");
+            buff.append("<input type=\"submit\" value=\"Ändra komponent\"/>");
+            buff.append("<input type=\"hidden\" name=\"compid\" value=\"");
+            buff.append(cob.getID());
+            buff.append("\"/></form>");
+            buff.append("</td>");
+            buff.append("</form>");
+            buff.append("<td>");
+            buff.append("<form action=\"shop?action=removeComponent\" method=\"post\">");
+            buff.append("<input type=\"submit\" value=\"Ta bort\"/>");
+            buff.append("<input type=\"hidden\" name=\"compid\" value=\"");
+            buff.append(cob.getID());
+            buff.append("\"/></form>");
             buff.append("</td>");
             buff.append("</tr>");
-            buff.append("</form>");
         }
         
         return buff.toString();
@@ -138,5 +153,152 @@ public class ComponentListBean {
 	    }
 	}
 	return null;
+    }
+    
+    public void removeById(int id) throws Exception {
+        ComponentBean cob = null;
+        Iterator iter = compList.iterator();
+        while(iter.hasNext()) {
+            cob = (ComponentBean)iter.next();
+            if(cob.getID() == id){
+                compList.remove(cob);
+            }
+        }
+    }
+    
+    public void updateComponent(ComponentBean cob) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        PreparedStatement stmt2 = null;
+        PreparedStatement stmt3 = null;
+        
+        String updateQuery = "UPDATE components SET "
+                + "name=?, "
+                + "type=?, "
+                + "price=?, "
+                + "qoh=?, "
+                + "description=? "
+                + "WHERE id=?";
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn=DriverManager.getConnection(url);
+            
+            stmt = conn.prepareStatement(updateQuery);
+            stmt.setString(1, cob.getName());
+            stmt.setInt(2, cob.getType());
+            stmt.setInt(3, cob.getPrice());
+            stmt.setInt(4, cob.getQoh());
+            stmt.setString(5, cob.getDescription());
+            stmt.setInt(6, cob.getID());
+            stmt.execute();
+            
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+                conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    public void insertComponent(ComponentBean cob) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        PreparedStatement stmt2 = null;
+        PreparedStatement stmt3 = null;
+        ResultSet rs = null;
+        
+        int compid;
+        
+        String insertQuery = "INSERT INTO components (name, "
+                + "type, "
+                + "price, "
+                + "qoh, "
+                + "description) "
+                + "VALUES (?,?,?,?,?)";
+        
+        String selectQuery = "SELECT LAST_INSERT_ID() AS compid";
+        
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn=DriverManager.getConnection(url);
+            
+            conn.setAutoCommit(false);
+            
+            stmt = conn.prepareStatement(insertQuery);
+            stmt.setString(1, cob.getName());
+            stmt.setInt(2, cob.getType());
+            stmt.setInt(3, cob.getPrice());
+            stmt.setInt(4, cob.getQoh());
+            stmt.setString(5, cob.getDescription());
+            stmt.execute();
+            
+            stmt2 = conn.prepareStatement(selectQuery);
+            rs = stmt2.executeQuery();
+            
+            conn.commit();
+            
+            rs.next();
+            compid = rs.getInt("compid");
+            
+            conn.setAutoCommit(true);
+            
+            cob.setID(compid);
+            
+            compList.add(cob);
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                stmt2.close();
+                conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    public void deleteComponent(ComponentBean cob) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        PreparedStatement stmt2 = null;
+        
+        String deleteQuery1 = "DELETE FROM components WHERE id=?";
+        
+        String deleteQuery2 = "DELETE FROM cpu_comp WHERE component_id=?";
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn=DriverManager.getConnection(url);
+            
+            stmt = conn.prepareStatement(deleteQuery1);
+            stmt.setInt(1, cob.getID());
+            stmt.execute();
+            
+            stmt2 = conn.prepareStatement(deleteQuery2);
+            stmt2.setInt(1, cob.getID());
+            stmt2.execute();
+            
+            removeById(cob.getID());
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+                stmt2.close();
+                conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
