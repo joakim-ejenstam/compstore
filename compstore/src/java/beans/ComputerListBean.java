@@ -284,7 +284,7 @@ public class ComputerListBean {
             stmt = conn.prepareStatement(insertQuery1);
             stmt.setString(1, cb.getName());
             stmt.setString(2, cb.getDescription());
-            stmt.executeQuery();
+            stmt.execute();
             
             stmt2 = conn.prepareStatement(selectQuery);
             rs = stmt2.executeQuery();

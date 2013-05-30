@@ -17,7 +17,7 @@
     
     <jsp:useBean id="components" type="beans.ComponentListBean" scope="session"/>
     
-    <form action="shop?updateProduct" method="post">
+    <form action="shop?action=updateProduct" method="post">
         
         <c:if test="${sessionScope.changeComputer != null}">
             <jsp:useBean id="changeComputer" type="beans.ComputerBean" scope="session">

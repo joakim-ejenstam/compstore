@@ -270,12 +270,13 @@ public class ShopServlet extends HttpServlet {
         
         else if(request.getParameter("action").equals("updateProduct")) {
             ComputerBean cb = (ComputerBean) request.getSession().getAttribute("changeComputer");
+            System.out.println(cb);
             if (cb != null) {
-                cb = updateComputerBean(cb, request);
-                cList.updateComputer(cb);
+                /*cb = updateComputerBean(cb, request);
+                cList.updateComputer(cb);*/
                 
             } else {
-                cb = updateComputerBean(cb,request);
+                cb = updateComputerbean(cb,request);
                 cList.insertComputer(cb);
             }
             
@@ -413,15 +414,16 @@ public class ShopServlet extends HttpServlet {
         return returnBean;
     }
     
-    private ComputerBean updateComputer(ComputerBean cb, HttpServletRequest request) {
+    private ComputerBean updateComputerbean(ComputerBean cb, HttpServletRequest request) {
         if (cb == null) {
             cb = new ComputerBean();
         }
         cb.setName(request.getParameter("name"));
-        cb.setName(request.getParameter("desctiption"));
-
-        String[] checkboxes = request.getParameterValues("checkbox");
+        cb.setDescription(request.getParameter("description"));
+        
+        String[] checkboxes = request.getParameterValues("type");
         String parts = "";
+        System.out.println(checkboxes);
         for(String s : checkboxes) {
             parts += s + ":";
         }
