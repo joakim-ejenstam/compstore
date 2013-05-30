@@ -32,7 +32,13 @@ public class ManagerBean {
     }
     
     public String getComputerXml() {
-        return cpuList.getManagerxml();
+        String returnString = null;
+        try{
+            returnString = cpuList.getManagerxml();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return returnString;
     }
     
     public void updateComponent(ComponentBean _cob) throws Exception {

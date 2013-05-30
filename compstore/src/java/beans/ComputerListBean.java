@@ -213,10 +213,10 @@ public class ComputerListBean {
             
             while(rs.next()) {
                 stmt2 = conn.prepareStatement(query2);
-                stmt.setInt(2, rs.getInt("type"));
+                stmt2.setInt(1, rs.getInt("type"));
                 
                 rs2 = stmt2.executeQuery();
-                
+                rs2.next();
                 parts += rs2.getString("name"); 
                 parts += ": ";
                 parts += rs.getString("name");
