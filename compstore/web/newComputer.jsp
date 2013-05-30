@@ -14,64 +14,60 @@
     </head>
     <body>
     <h1>Admin Panel: Add/Edit computer</h1>
+    
     <jsp:useBean id="components" type="beans.ComponentListBean" scope="session"/>
-    <c:if test="${sessionScope.changeComputer != null}">
-        <jsp:useBean id="changeComputer" type="beans.ComputerBean" scope="session">
-            Error!
-        </jsp:useBean>
-            <form action="shop?updateComputer" method="post">
-            <table>
-                <tr>
-                    <td>Namn</td>
-                    <td>
-                        <input type="text" 
-                               name="name"
-                               value=${changeComputer.name}
-                               size="50"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Beskrivning</td>
-                    <td>
-                        <input type="text"
-                               name="description"
-                               value=${changeComputer.description}
-                    </td>
-                </tr>
-            </table>
-            ${components.checkboxxml}
-            </form>
-    </c:if>
-    <c:if test="${sessionScope.changeComputer == null}">
-        <form action="shop?updateComputer" method="post">
-            <table>
-                <tr>
-                    <td>Namn</td>
-                    <td>
-                        <input type="text" 
-                               name="name"
-                               value=""
-                               size="50"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Beskrivning</td>
-                    <td>
-                        <input type="text" 
-                               name="description"
-                               value=""
-                               size="50"/>
-                    </td>
-                </tr>
-            </table>
-            ${components.checkboxxml}
-            </form>
-    </c:if>
+    
+    <form action="shop?updateProduct" method="post">
         
-    <form action="shop?saveProduct" method="post">
+        <c:if test="${sessionScope.changeComputer != null}">
+            <jsp:useBean id="changeComputer" type="beans.ComputerBean" scope="session">
+                Error!
+            </jsp:useBean>
+                <table>
+                    <tr>
+                        <td>Namn</td>
+                        <td>
+                            <input type="text" 
+                                   name="name"
+                                   value=${changeComputer.name}
+                                   size="50"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Beskrivning</td>
+                        <td>
+                            <input type="text"
+                                   name="description"
+                                   value=${changeComputer.description}
+                        </td>
+                    </tr>
+                </table>
+
+        </c:if>
+        <c:if test="${sessionScope.changeComputer == null}">
+            <table>
+                <tr>
+                    <td>Namn</td>
+                    <td>
+                        <input type="text" 
+                               name="name"
+                               value=""
+                               size="50"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Beskrivning</td>
+                    <td>
+                        <input type="text" 
+                               name="description"
+                               value=""
+                               size="50"/>
+                    </td>
+                </tr>
+            </table>
+        </c:if>
+        ${components.checkboxxml}   
         <input type="submit" value="Spara"/>
     </form>
-        
-        
     </body>
 </html>

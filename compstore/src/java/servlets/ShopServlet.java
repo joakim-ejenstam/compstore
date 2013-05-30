@@ -267,6 +267,21 @@ public class ShopServlet extends HttpServlet {
             rd = request.getRequestDispatcher(newcomputer);
             rd.forward(request, response);
         }
+        
+        else if(request.getParameter("action").equals("updateProduct")) {
+            ComputerBean cb = (ComputerBean) request.getSession().getAttribute("changeComputer");
+            if (cb != null) {
+                cb = updateComputerBean(cb, request);
+                cList.updateComputer(cb);
+                
+            } else {
+                cb = updateComputerBean(cb,request);
+                cList.insertComputer(cb);
+            }
+            
+            rd = request.getRequestDispatcher(managerpage);
+            rd.forward(request, response);
+        }
     }
     
     private ShoppingCartBean getCart(HttpServletRequest request){
@@ -396,6 +411,23 @@ public class ShopServlet extends HttpServlet {
             e.printStackTrace();
         }
         return returnBean;
+    }
+    
+    private ComputerBean updateComputer(ComputerBean cb, HttpServletRequest request) {
+        if (cb == null) {
+            cb = new ComputerBean();
+        }
+        cb.setName(request.getParameter("name"));
+        cb.setName(request.getParameter("desctiption"));
+
+        String[] checkboxes = request.getParameterValues("checkbox");
+        String parts = "";
+        for(String s : checkboxes) {
+            parts += s + ":";
+        }
+        cb.setParts(parts);
+        
+        return cb;
     }
         
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

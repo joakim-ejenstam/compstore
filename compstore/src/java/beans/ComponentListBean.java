@@ -117,7 +117,7 @@ public class ComponentListBean {
         
         while(iter.hasNext()) {
             cob = (ComponentBean)iter.next();
-            buff.append("<input type=\"checkbox[]\" name=\"type\" value=\"");
+            buff.append("<input type=\"checkbox\" name=\"type\" value=\"");
             buff.append(Integer.toString(cob.getID()));
             buff.append("\" /> ");
             buff.append(cob.getName());
