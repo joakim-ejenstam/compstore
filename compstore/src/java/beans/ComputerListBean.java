@@ -314,6 +314,8 @@ public class ComputerListBean {
         PreparedStatement stmt3 = null;
         ResultSet rs = null;
         
+        int cid;
+        
         String insertQuery1 = "INSERT INTO computers (name, description) "
                 + "VALUES (?,?)";
         
@@ -339,7 +341,7 @@ public class ComputerListBean {
             conn.commit();
             
             rs.next();
-            int cid = rs.getInt("cid");
+            cid = rs.getInt("cid");
             
             conn.setAutoCommit(true);
             
@@ -351,6 +353,9 @@ public class ComputerListBean {
                 stmt3.setInt(2, Integer.parseInt(s));
                 stmt3.execute();
             }
+            
+            cb.setID(cid);
+            cb.setPrice(getComputerPrice(cb));
             
             cpuList.add(cb);
 
