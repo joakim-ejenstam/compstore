@@ -29,8 +29,17 @@
                                size="50"/>
                     </td>
                 </tr>
+                <tr>
+                    <td>Beskrivning</td>
+                    <td>
+                        <input type="text"
+                               name="description"
+                               value=${changeComputer.description}
+                               size="50"/>
+                    </td>
+                </tr>
             </table>
-            </form>
+            </form>s
     </c:if>
     <c:if test="${sessionScope.changeComputer == null}">
         <form action="shop?updateComputer" method="post">

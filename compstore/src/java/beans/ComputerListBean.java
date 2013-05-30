@@ -68,7 +68,7 @@ public class ComputerListBean {
         return cpuList;
     }
     
-    public String getXml() throws Exception {
+    public String getXml() {
         
         ComputerBean cb = null;
         Iterator iter = cpuList.iterator();
@@ -104,7 +104,7 @@ public class ComputerListBean {
         return buff.toString();
     }
     
-    public String getManagerxml() throws Exception {
+    public String getManagerxml() {
         
         ComputerBean cb = null;
         Iterator iter = cpuList.iterator();
