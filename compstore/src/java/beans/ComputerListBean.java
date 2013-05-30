@@ -362,8 +362,6 @@ public class ComputerListBean {
             Class.forName("com.mysql.jdbc.Driver");
             conn=DriverManager.getConnection(url);
             
-            conn.setAutoCommit(false);
-            
             stmt = conn.prepareStatement(deleteQuery1);
             stmt.setInt(1, cb.getID());
             stmt.execute();
@@ -371,7 +369,6 @@ public class ComputerListBean {
             stmt2 = conn.prepareStatement(deleteQuery2);
             stmt2.setInt(1, cb.getID());
             stmt2.execute();
-
 
         } catch(Exception e) {
             e.printStackTrace();
