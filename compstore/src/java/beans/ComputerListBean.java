@@ -348,4 +348,41 @@ public class ComputerListBean {
             }
         }
     }
+    
+    public void deleteComputer(ComputerBean cb) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        PreparedStatement stmt2 = null;
+        
+        String deleteQuery1 = "DELETE FROM computers WHERE id=?";
+        
+        String deleteQuery2 = "DELETE FROM cpu_comp WHERE computer_id=?";
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn=DriverManager.getConnection(url);
+            
+            conn.setAutoCommit(false);
+            
+            stmt = conn.prepareStatement(deleteQuery1);
+            stmt.setInt(1, cb.getID());
+            stmt.execute();
+            
+            stmt2 = conn.prepareStatement(deleteQuery2);
+            stmt2.setInt(1, cb.getID());
+            stmt2.execute();
+
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+                stmt2.close();
+                conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
