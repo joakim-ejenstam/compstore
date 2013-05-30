@@ -235,4 +235,29 @@ public class ComputerListBean {
         
         return parts;
     }
+    
+    public void updateComputer(ComputerBean cb) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        PreparedStatement stmt2 = null;
+        PreparedStatement stmt3 = null;
+        
+        String updateQuery = "SELECT name, type FROM components WHERE id IN "
+                + "(SELECT component_id FROM cpu_comp WHERE computer_id=?)";
+        
+        String deleteQuery = "SELECT name FROM component_types WHERE id=?";
+        
+        String insertQuery = "";
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn=DriverManager.getConnection(url);
+            
+            stmt = conn.prepareStatement(query);
+            stmt.setInt(1, cb.getID());
+            rs = stmt.executeQuery();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
