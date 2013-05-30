@@ -77,8 +77,6 @@ public class ComputerListBean {
         while(iter.hasNext()){
             cb = (ComputerBean)iter.next();
             
-            int cprice = getComputerPrice(cb);
-            
             buff.append("<tr>");
             buff.append("<td>");
             buff.append(cb.getName());
@@ -153,7 +151,7 @@ public class ComputerListBean {
 	return null;
     }
     
-    public int getComputerPrice(ComputerBean cb) throws Exception {
+    public int getComputerPrice(ComputerBean cb) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -176,13 +174,13 @@ public class ComputerListBean {
             price = rs.getInt("price");
             
         } catch(Exception e) {
-            throw new Exception("Could not get price",e);
+            e.printStackTrace();
         } finally {
             try {
                 stmt.close();
                 conn.close();
             } catch (Exception e) {
-                throw new Exception("Could not close connection",e);
+                e.printStackTrace();
             }
         }
         
@@ -235,19 +233,20 @@ public class ComputerListBean {
         
         return parts;
     }
-    
+    /*
     public void updateComputer(ComputerBean cb) {
         Connection conn = null;
         PreparedStatement stmt = null;
         PreparedStatement stmt2 = null;
         PreparedStatement stmt3 = null;
         
-        String updateQuery = "SELECT name, type FROM components WHERE id IN "
-                + "(SELECT component_id FROM cpu_comp WHERE computer_id=?)";
+        String updateQuery = "UPDATE computers SET name=?, description=? "
+                + "WHERE id=?";
         
-        String deleteQuery = "SELECT name FROM component_types WHERE id=?";
+        String deleteQuery = "DELETE FROM cpu_comp WHERE computer_id=?";
         
-        String insertQuery = "";
+        String insertQuery = "INSERT INTO cpu_comp (computer_id, component_id) "
+                + "VALUES (?,?)";
         
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -256,6 +255,57 @@ public class ComputerListBean {
             stmt = conn.prepareStatement(query);
             stmt.setInt(1, cb.getID());
             rs = stmt.executeQuery();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+    */
+    public void insertComputer(ComputerBean cb) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        PreparedStatement stmt2 = null;
+        PreparedStatement stmt3 = null;
+        ResultSet rs = null;
+        
+        String insertQuery1 = "INSERT INTO computers (name, description) "
+                + "VALUES (?,?)";
+        
+        String selectQuery = "SELECT LAST_INSERT_ID() AS cid";
+        
+        String insertQuery2 = "INSERT INTO cpu_comp (computer_id, component_id)"
+                + "VALUES (?,?)";
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn=DriverManager.getConnection(url);
+            
+            conn.setAutoCommit(false);
+            
+            stmt = conn.prepareStatement(insertQuery1);
+            stmt.setString(1, cb.getName());
+            stmt.setString(2, cb.getDescription());
+            stmt.executeQuery();
+            
+            stmt2 = conn.prepareStatement(selectQuery);
+            rs = stmt2.executeQuery();
+            
+            conn.commit();
+            
+            rs.next();
+            int cid = rs.getInt("cid");
+            
+            conn.setAutoCommit(true);
+            
+            String[] splitArray = cb.getParts().split(":");
+            
+            for(String s : splitArray) {
+                stmt3 = conn.prepareStatement(insertQuery2);
+                stmt3.setInt(1, cid);
+                stmt3.setInt(2, Integer.parseInt(s));
+                stmt3.execute();
+            }
+            
+            
         } catch(Exception e) {
             e.printStackTrace();
         }
