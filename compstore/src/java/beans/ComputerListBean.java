@@ -177,6 +177,7 @@ public class ComputerListBean {
             e.printStackTrace();
         } finally {
             try {
+                rs.close();
                 stmt.close();
                 conn.close();
             } catch (Exception e) {
@@ -224,7 +225,10 @@ public class ComputerListBean {
             throw new Exception("Could not get parts",e);
         } finally {
             try {
+                rs.close();
+                rs2.close();
                 stmt.close();
+                stmt2.close();
                 conn.close();
             } catch (Exception e) {
                 throw new Exception("Could not close connection",e);
@@ -233,7 +237,7 @@ public class ComputerListBean {
         
         return parts;
     }
-    /*
+    
     public void updateComputer(ComputerBean cb) {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -252,14 +256,39 @@ public class ComputerListBean {
             Class.forName("com.mysql.jdbc.Driver");
             conn=DriverManager.getConnection(url);
             
-            stmt = conn.prepareStatement(query);
+            stmt = conn.prepareStatement(updateQuery);
+            stmt.setString(1, cb.getName());
+            stmt.setString(2, cb.getDescription());
+            stmt.setInt(3, cb.getID());
+            stmt.execute();
+            
+            stmt = conn.prepareStatement(deleteQuery);
             stmt.setInt(1, cb.getID());
-            rs = stmt.executeQuery();
+            stmt.execute();
+            
+            String[] splitArray = cb.getParts().split(":");
+            
+            for(String s : splitArray) {
+                stmt3 = conn.prepareStatement(insertQuery);
+                stmt3.setInt(1, cb.getID());
+                stmt3.setInt(2, Integer.parseInt(s));
+                stmt3.execute();
+            }
+            
         } catch(Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+                stmt2.close();
+                stmt3.close();
+                conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
-    */
+    
     public void insertComputer(ComputerBean cb) {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -304,10 +333,19 @@ public class ComputerListBean {
                 stmt3.setInt(2, Integer.parseInt(s));
                 stmt3.execute();
             }
-            
-            
+
         } catch(Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                stmt2.close();
+                stmt3.close();
+                conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
