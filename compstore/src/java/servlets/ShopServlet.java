@@ -272,14 +272,21 @@ public class ShopServlet extends HttpServlet {
             ComputerBean cb = (ComputerBean) request.getSession().getAttribute("changeComputer");
             System.out.println(cb);
             if (cb != null) {
-                /*cb = updateComputerBean(cb, request);
-                cList.updateComputer(cb);*/
+                cb = updateComputerbean(cb, request);
+                cList.updateComputer(cb);
                 
             } else {
                 cb = updateComputerbean(cb,request);
                 cList.insertComputer(cb);
             }
             
+            rd = request.getRequestDispatcher(managerpage);
+            rd.forward(request, response);
+        }
+        
+        else if(request.getParameter("action").equals("removeProduct")) {
+            ComputerBean cb = getCBean(request);
+            cList.deleteComputer(cb);
             rd = request.getRequestDispatcher(managerpage);
             rd.forward(request, response);
         }
