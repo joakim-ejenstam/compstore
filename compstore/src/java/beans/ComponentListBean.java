@@ -110,6 +110,23 @@ public class ComponentListBean {
         return buff.toString();
     }
     
+    public String getCheckboxxml() {
+        ComponentBean cob = null;
+        Iterator iter = compList.iterator();
+        StringBuffer buff = new StringBuffer();
+        
+        while(iter.hasNext()) {
+            cob = (ComponentBean)iter.next();
+            buff.append("<input type=\"checkbox[]\" name=\"type\" value=\"");
+            buff.append(Integer.toString(cob.getID()));
+            buff.append("\" /> ");
+            buff.append(cob.getName());
+            buff.append("<br />");
+        }
+        
+        return buff.toString();
+    }
+    
     public ComponentBean getById(int id) {
 	ComponentBean cob = null;
 	Iterator iter = compList.iterator();

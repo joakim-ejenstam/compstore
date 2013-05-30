@@ -107,9 +107,7 @@ public class ShopServlet extends HttpServlet {
         else if (request.getParameter("action").equals("details")) {
             if(request.getParameter("cid") != null) {
                 
-                ComputerBean comp = 
-                        cList.getById(
-                        Integer.parseInt(request.getParameter("cid")));
+                ComputerBean comp = getCBean(request);
                 
                 request.setAttribute("comp", comp);
             }
@@ -133,8 +131,7 @@ public class ShopServlet extends HttpServlet {
                     request.getParameter("quan") != null) {
                 
                 //TODO: add things to the shoppingcart later
-                ComputerBean cb = cList.getById(
-                        Integer.parseInt(request.getParameter("cid")));
+                ComputerBean cb = getCBean(request);
                 scb.addItem(cb,Integer.parseInt(request.getParameter("quan")));
                 
                 rd = request.getRequestDispatcher(startpage);
@@ -258,10 +255,14 @@ public class ShopServlet extends HttpServlet {
         }
         
         else if(request.getParameter("action").equals("addProduct")) {
+            request.getSession().setAttribute(
+                        "components",
+                        compList);
+            request.getSession().removeAttribute("changeComputer");
             if(request.getParameter("cid") != null) {
                 request.getSession().setAttribute(
                     "changeComputer", 
-                    cList.getById(Integer.parseInt(request.getParameter("cid"))));
+                    getCBean(request));
             }
             rd = request.getRequestDispatcher(newcomputer);
             rd.forward(request, response);
@@ -386,6 +387,17 @@ public class ShopServlet extends HttpServlet {
         return false;
     }
     
+    private ComputerBean getCBean(HttpServletRequest request) {
+        ComputerBean returnBean = null;
+        try {
+            int id = Integer.parseInt(request.getParameter("cid"));
+            returnBean = cList.getById(id);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return returnBean;
+    }
+        
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP

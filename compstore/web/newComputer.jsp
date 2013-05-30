@@ -14,6 +14,7 @@
     </head>
     <body>
     <h1>Admin Panel: Add/Edit computer</h1>
+    <jsp:useBean id="components" type="beans.ComponentListBean" scope="session"/>
     <c:if test="${sessionScope.changeComputer != null}">
         <jsp:useBean id="changeComputer" type="beans.ComputerBean" scope="session">
             Error!
@@ -35,11 +36,11 @@
                         <input type="text"
                                name="description"
                                value=${changeComputer.description}
-                               size="50"/>
                     </td>
                 </tr>
             </table>
-            </form>s
+            ${components.checkboxxml}
+            </form>
     </c:if>
     <c:if test="${sessionScope.changeComputer == null}">
         <form action="shop?updateComputer" method="post">
@@ -63,6 +64,7 @@
                     </td>
                 </tr>
             </table>
+            ${components.checkboxxml}
             </form>
     </c:if>
         
