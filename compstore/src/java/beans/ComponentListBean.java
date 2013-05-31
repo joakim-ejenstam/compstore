@@ -264,7 +264,6 @@ public class ComponentListBean {
         
         String selectQuery = "SELECT LAST_INSERT_ID() AS compid";
         
-        
         try {
             Class.forName("com.mysql.jdbc.Driver");
             conn=DriverManager.getConnection(url);
