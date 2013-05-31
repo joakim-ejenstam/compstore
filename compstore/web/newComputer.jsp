@@ -69,5 +69,6 @@
         ${components.checkboxxml}   
         <input type="submit" value="Spara"/>
     </form>
+    <form action="shop?action=manager" method="post"><input type="submit" value="Avbryt"/></form>
     </body>
 </html>

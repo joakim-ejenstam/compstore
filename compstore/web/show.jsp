@@ -88,7 +88,7 @@
                 <td>    
                     <c:if test="${user.manager == 1}">
                         <form action="shop?action=manager" method="post">
-                            <input type="submit" value="Chefspanelen"> 
+                            <input type="submit" value="Administratör"> 
                         </form>
                     </c:if>
                 </td>

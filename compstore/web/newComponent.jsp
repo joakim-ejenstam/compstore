@@ -58,6 +58,7 @@
                                    size="50"/>
                         </td>
                     </tr>
+                    <%--
                     <tr>
                         <td>Beskrivning</td>
                         <td>
@@ -66,8 +67,8 @@
                                    value=${changeComponent.description} 
                                    size="50"/>
                         </td>
-                    </tr>
-                </table>
+                    </tr>--%>
+                </table> 
 
         </c:if>
         <c:if test="${sessionScope.changeComponent == null}">
@@ -118,5 +119,6 @@
         </c:if> 
         <input type="submit" value="Spara"/>
     </form>
+    <form action="shop?action=manager" method="post"><input type="submit" value="Avbryt"/></form>
     </body>
 </html>
