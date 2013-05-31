@@ -36,6 +36,7 @@
                     <tr>
                         <td>Typ</td>
                         <td>
+                            <!--${components.dropdownxml}-->
                             <input type="text" 
                                    name="type" 
                                    value=${changeComponent.type} 
@@ -86,9 +87,10 @@
                 <tr>
                     <td>Typ</td>
                     <td>
+                        <!--${components.dropdownxml}-->
                         <input type="text" 
                                name="type" 
-                               value="" 
+                               value=""
                                size="50"/>
                     </td>
                 </tr>

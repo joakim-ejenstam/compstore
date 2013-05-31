@@ -142,6 +142,47 @@ public class ComponentListBean {
         return buff.toString();
     }
     
+    public String getDropdownxml() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        String returnString = "<select name=\"type\">";
+        returnString += "<option value=0>Välj typ</option>";
+        
+        String query = "SELECT * FROM component_types ORDER BY name ASC";
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn=DriverManager.getConnection(url);
+            
+            stmt = conn.prepareStatement(query);
+            rs = stmt.executeQuery();
+            
+            while(rs.next()) {
+                returnString += "<option value=\"";
+                returnString += Integer.toString(rs.getInt("id"));
+                returnString += "\">";
+                returnString += rs.getString("name");
+                returnString += "</option>";
+            }
+            
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+                conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        
+        returnString = "</select>";
+        
+        return returnString;
+    }
+    
     public ComponentBean getById(int id) {
 	ComponentBean cob = null;
 	Iterator iter = compList.iterator();
