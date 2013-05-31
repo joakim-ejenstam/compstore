@@ -178,7 +178,7 @@ public class ComponentListBean {
             }
         }
         
-        returnString = "</select>";
+        returnString += "</select>";
         
         return returnString;
     }
